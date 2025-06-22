@@ -371,10 +371,38 @@ function setLanguage(lang) {
     // Apply translations
     applyTranslations(lang);
     
+    // Update Buy Me a Coffee widget message
+    updateBMCWidgetMessage(lang);
+    
     // Store in localStorage
     localStorage.setItem('website-language', lang);
     
     console.log('[Website] Language set to:', lang);
+}
+
+// Update Buy Me a Coffee widget message based on language
+function updateBMCWidgetMessage(lang) {
+    // Wait for widget to load
+    setTimeout(() => {
+        const bmcWidget = document.querySelector('[data-name="BMC-Widget"]');
+        if (bmcWidget) {
+            const messages = {
+                en: "Thanks for the coffee! ☕ Your support keeps this extension free!",
+                tr: "Kahve için teşekkürler! ☕ Desteğiniz bu uzantıyı ücretsiz tutuyor!"
+            };
+            
+            // Update widget message
+            bmcWidget.setAttribute('data-message', messages[lang] || messages.en);
+            
+            // Update widget description
+            const descriptions = {
+                en: "Support the development of Block The Unwanted!",
+                tr: "Block The Unwanted gelişimini destekleyin!"
+            };
+            
+            bmcWidget.setAttribute('data-description', descriptions[lang] || descriptions.en);
+        }
+    }, 1000);
 }
 
 // Apply translations to elements
@@ -711,6 +739,11 @@ document.addEventListener('DOMContentLoaded', function() {
             this.style.boxShadow = 'none';
         });
     });
+
+    // Initialize Buy Me a Coffee widget with correct language
+    setTimeout(() => {
+        updateBMCWidgetMessage(currentLang || 'en');
+    }, 2000);
 
     // Analytics tracking (replace with your analytics code)
     function trackEvent(action, label, value) {

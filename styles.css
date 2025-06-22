@@ -1200,3 +1200,26 @@ html {
         font-size: 3rem;
     }
 }
+
+/* Buy Me a Coffee Widget Styling */
+[data-name="BMC-Widget"] {
+    z-index: 9999 !important;
+}
+
+/* BMC Widget customization for dark theme */
+[data-theme="dark"] [data-name="BMC-Widget"] {
+    filter: brightness(0.9) !important;
+}
+
+/* BMC Widget animation on hover */
+[data-name="BMC-Widget"]:hover {
+    transform: scale(1.05) !important;
+    transition: transform 0.3s ease !important;
+}
+
+/* BMC Widget positioning for mobile */
+@media (max-width: 768px) {
+    [data-name="BMC-Widget"] {
+        transform: scale(0.9) !important;
+    }
+}
