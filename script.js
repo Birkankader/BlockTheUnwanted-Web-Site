@@ -363,7 +363,7 @@ function setLanguage(lang) {
     // Update language toggle button
     const langToggle = document.querySelector('#lang-toggle .lang-text');
     if (langToggle) {
-        langToggle.textContent = lang === 'tr' ? 'EN' : 'TR';
+        langToggle.textContent = lang === 'tr' ? 'TR' : 'EN';
     }
     
     // Apply translations
