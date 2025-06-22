@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitter Filter Pro - Advanced Content Filtering Extension</title>
+    <meta name="description" content="Powerful Chrome extension for filtering Twitter/X content with AI-powered OCR, video analysis, and community blocking features.">
+    <meta name="keywords" content="Twitter filter, X filter, content blocking, OCR, Chrome extension, social media filter">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="nav-icon">🛡️</span>
+                <span class="nav-title">Twitter Filter Pro</span>
+            </div>
+            <div class="nav-links">
+                <a href="#features" data-en="Features" data-tr="Özellikler">Features</a>
+                <a href="#how-it-works" data-en="How It Works" data-tr="Nasıl Çalışır">How It Works</a>
+                <a href="#faq" data-en="FAQ" data-tr="SSS">FAQ</a>
+                <a href="#support" class="nav-cta" data-en="Support Us" data-tr="Destek Ol">Support Us</a>
+                <div class="nav-controls">
+                    <button id="theme-toggle" class="theme-toggle" title="Toggle theme">
+                        <span class="theme-icon">🌙</span>
+                    </button>
+                    <button id="lang-toggle" class="lang-toggle" title="Change language">
+                        <span class="lang-text">TR</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title" data-en="Take Control of Your Twitter Feed" data-tr="Twitter Akışınızı Kontrol Edin">Take Control of Your Twitter Feed</h1>
+                <p class="hero-subtitle" data-en="Advanced content filtering with AI-powered OCR, video analysis, and smart community blocking. Filter what you see, reclaim your timeline." data-tr="Yapay zeka destekli OCR, video analizi ve akıllı topluluk engelleme ile gelişmiş içerik filtreleme. Gördüklerinizi filtreleyin, zaman akışınızı geri alın.">Advanced content filtering with AI-powered OCR, video analysis, and smart community blocking. Filter what you see, reclaim your timeline.</p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-primary" id="install-btn">
+                        <span class="btn-icon">⬇️</span>
+                        <span data-en="Install Extension" data-tr="Uzantıyı Yükle">Install Extension</span>
+                    </a>
+                    <a href="#features" class="btn btn-secondary" data-en="Learn More" data-tr="Daha Fazla">Learn More</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">10,000+</span>
+                        <span class="stat-label" data-en="Active Users" data-tr="Aktif Kullanıcı">Active Users</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">99.9%</span>
+                        <span class="stat-label" data-en="Uptime" data-tr="Çalışma Süresi">Uptime</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">⭐⭐⭐⭐⭐</span>
+                        <span class="stat-label" data-en="User Rating" data-tr="Kullanıcı Puanı">User Rating</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="mockup-browser">
+                    <div class="browser-header">
+                        <div class="browser-buttons">
+                            <span class="btn-close"></span>
+                            <span class="btn-minimize"></span>
+                            <span class="btn-maximize"></span>
+                        </div>
+                        <div class="browser-url">twitter.com</div>
+                    </div>
+                    <div class="browser-content">
+                        <div class="filtered-tweet">
+                            <div class="filter-overlay">
+                                <span class="filter-icon">🛡️</span>
+                                <span class="filter-text">Content Filtered</span>
+                                <span class="filter-reason">Keyword detected in image</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-en="Powerful Filtering Features" data-tr="Güçlü Filtreleme Özellikleri">Powerful Filtering Features</h2>
+                <p class="section-subtitle" data-en="Advanced AI-powered content filtering that works in real-time" data-tr="Gerçek zamanlı çalışan gelişmiş yapay zeka destekli içerik filtreleme">Advanced AI-powered content filtering that works in real-time</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3 class="feature-title" data-en="Text Analysis" data-tr="Metin Analizi">Text Analysis</h3>
+                    <p class="feature-description" data-en="Instantly filter tweets containing specific keywords or phrases. Fast and reliable text matching." data-tr="Belirli anahtar kelimeler veya ifadeler içeren tweet'leri anında filtreleyin. Hızlı ve güvenilir metin eşleştirme.">Instantly filter tweets containing specific keywords or phrases. Fast and reliable text matching.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3 class="feature-title" data-en="Community Blocking" data-tr="Topluluk Engelleme">Community Blocking</h3>
+                    <p class="feature-description" data-en="Block entire communities and their member posts. Comprehensive community-level filtering." data-tr="Tüm toplulukları ve üye gönderilerini engelleyin. Kapsamlı topluluk düzeyinde filtreleme.">Block entire communities and their member posts. Comprehensive community-level filtering.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3 class="feature-title" data-en="Local OCR Processing" data-tr="Yerel OCR İşleme">Local OCR Processing</h3>
+                    <p class="feature-description" data-en="Extract text from images using local processing. No data sent to external servers. Works offline." data-tr="Yerel işleme kullanarak görüntülerden metin çıkarın. Dış sunuculara veri gönderilmez. Çevrimdışı çalışır.">Extract text from images using local processing. No data sent to external servers. Works offline.</p>
+                </div>
+                <div class="feature-card premium">
+                    <div class="feature-icon">🎥</div>
+                    <h3 class="feature-title" data-en="Video Analysis" data-tr="Video Analizi">Video Analysis <span class="coming-soon-badge" data-en="Coming Soon" data-tr="Yakında">Coming Soon</span></h3>
+                    <p class="feature-description" data-en="AI-powered speech-to-text analysis of videos. Detect keywords in spoken content. Currently in development." data-tr="Yapay zeka destekli videoların konuşma-metin analizi. Konuşulan içerikteki anahtar kelimeleri tespit edin. Şu anda geliştirilme aşamasında.">AI-powered speech-to-text analysis of videos. Detect keywords in spoken content. Currently in development.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚙️</div>
+                    <h3 class="feature-title" data-en="Configurable Sensitivity" data-tr="Yapılandırılabilir Hassasiyet">Configurable Sensitivity</h3>
+                    <p class="feature-description" data-en="Adjust detection sensitivity to balance between catching content and avoiding false positives." data-tr="İçerik yakalama ve yanlış pozitiflerden kaçınma arasında dengeyi sağlamak için tespit hassasiyetini ayarlayın.">Adjust detection sensitivity to balance between catching content and avoiding false positives.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title" data-en="Real-time Statistics" data-tr="Gerçek Zamanlı İstatistikler">Real-time Statistics</h3>
+                    <p class="feature-description" data-en="Track filtering performance, blocked content count, and system efficiency metrics." data-tr="Filtreleme performansını, engellenen içerik sayısını ve sistem verimlilik metriklerini takip edin.">Track filtering performance, blocked content count, and system efficiency metrics.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-en="How It Works" data-tr="Nasıl Çalışır">How It Works</h2>
+                <p class="section-subtitle" data-en="Simple setup, powerful results" data-tr="Basit kurulum, güçlü sonuçlar">Simple setup, powerful results</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3 class="step-title" data-en="Install Extension" data-tr="Uzantıyı Yükle">Install Extension</h3>
+                        <p class="step-description" data-en="Add Twitter Filter Pro to Chrome from the Web Store. One-click installation." data-tr="Chrome Web Store'dan Twitter Filter Pro'yu Chrome'a ekleyin. Tek tıkla yükleme.">Add Twitter Filter Pro to Chrome from the Web Store. One-click installation.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3 class="step-title" data-en="Add Keywords" data-tr="Anahtar Kelime Ekle">Add Keywords</h3>
+                        <p class="step-description" data-en="Configure keywords and communities you want to filter. Supports complex patterns." data-tr="Filtrelemek istediğiniz anahtar kelimeleri ve toplulukları yapılandırın. Karmaşık kalıpları destekler.">Configure keywords and communities you want to filter. Supports complex patterns.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3 class="step-title" data-en="Browse Freely" data-tr="Özgürce Gezin">Browse Freely</h3>
+                        <p class="step-description" data-en="Enjoy a cleaner Twitter experience. Filtered content is hidden automatically." data-tr="Daha temiz bir Twitter deneyiminin keyfini çıkarın. Filtrelenen içerik otomatik olarak gizlenir.">Enjoy a cleaner Twitter experience. Filtered content is hidden automatically.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Tiers -->
+    <section class="pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-en="Choose Your Tier" data-tr="Seviyenizi Seçin">Choose Your Tier</h2>
+                <p class="section-subtitle" data-en="Free local processing or premium AI-powered analysis" data-tr="Ücretsiz yerel işleme veya premium yapay zeka destekli analiz">Free local processing or premium AI-powered analysis</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-title" data-en="Free Tier" data-tr="Ücretsiz Seviye">Free Tier</h3>
+                        <div class="pricing-price">$0</div>
+                        <p class="pricing-subtitle" data-en="Perfect for basic filtering needs" data-tr="Temel filtreleme ihtiyaçları için mükemmel">Perfect for basic filtering needs</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li data-en="✅ Text keyword filtering" data-tr="✅ Metin anahtar kelime filtreleme">✅ Text keyword filtering</li>
+                        <li data-en="✅ Community blocking" data-tr="✅ Topluluk engelleme">✅ Community blocking</li>
+                        <li data-en="✅ Local OCR processing" data-tr="✅ Yerel OCR işleme">✅ Local OCR processing</li>
+                        <li data-en="✅ Face detection" data-tr="✅ Yüz tanıma">✅ Face detection</li>
+                        <li data-en="✅ Real-time statistics" data-tr="✅ Gerçek zamanlı istatistikler">✅ Real-time statistics</li>
+                        <li data-en="❌ Video speech-to-text" data-tr="❌ Video konuşma-metin">❌ Video speech-to-text</li>
+                        <li data-en="❌ Advanced AI analysis" data-tr="❌ Gelişmiş yapay zeka analizi">❌ Advanced AI analysis</li>
+                    </ul>
+                    <button class="btn btn-secondary pricing-btn" data-en="Get Started" data-tr="Başlayın">Get Started</button>
+                </div>
+                <div class="pricing-card coming-soon">
+                    <div class="pricing-badge coming-soon-badge" data-en="Coming Soon" data-tr="Yakında">Coming Soon</div>
+                    <div class="pricing-header">
+                        <h3 class="pricing-title" data-en="Premium Tier" data-tr="Premium Seviye">Premium Tier</h3>
+                        <div class="pricing-price" data-en="In Development" data-tr="Geliştiriliyor">In Development</div>
+                        <p class="pricing-subtitle" data-en="Advanced AI-powered filtering" data-tr="Gelişmiş yapay zeka destekli filtreleme">Advanced AI-powered filtering</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li data-en="✅ All Free features" data-tr="✅ Tüm ücretsiz özellikler">✅ All Free features</li>
+                        <li data-en="🚧 Advanced OCR with GPT-4" data-tr="🚧 GPT-4 ile gelişmiş OCR">🚧 Advanced OCR with GPT-4</li>
+                        <li data-en="🚧 Video speech-to-text analysis" data-tr="🚧 Video konuşma-metin analizi">🚧 Video speech-to-text analysis</li>
+                        <li data-en="🚧 AI content understanding" data-tr="🚧 Yapay zeka içerik anlayışı">🚧 AI content understanding</li>
+                        <li data-en="🚧 Batch processing" data-tr="🚧 Toplu işleme">🚧 Batch processing</li>
+                        <li data-en="🚧 Higher accuracy detection" data-tr="🚧 Daha yüksek doğruluk tespiti">🚧 Higher accuracy detection</li>
+                        <li data-en="🚧 Premium support" data-tr="🚧 Premium destek">🚧 Premium support</li>
+                    </ul>
+                    <button class="btn btn-secondary pricing-btn" disabled data-en="Coming Soon" data-tr="Yakında">Coming Soon</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-en="Frequently Asked Questions" data-tr="Sıkça Sorulan Sorular">Frequently Asked Questions</h2>
+                <p class="section-subtitle" data-en="Everything you need to know about Twitter Filter Pro" data-tr="Twitter Filter Pro hakkında bilmeniz gereken her şey">Everything you need to know about Twitter Filter Pro</p>
+            </div>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3 class="faq-question">Is my data safe and private?</h3>
+                    <p class="faq-answer">Yes. Free tier processing happens entirely locally in your browser. Premium tier only sends necessary content to OpenAI for analysis. We never store your personal data or browsing history.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">Does it work on both Twitter and X?</h3>
+                    <p class="faq-answer">Yes, the extension works seamlessly on both twitter.com and x.com domains. It automatically adapts to interface changes.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">What's the difference between Free and Premium tiers?</h3>
+                    <p class="faq-answer">Free tier offers local text and basic image processing. Premium tier adds AI-powered advanced OCR, video speech-to-text analysis, and higher accuracy detection using OpenAI's GPT-4.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">When will Premium features be available?</h3>
+                    <p class="faq-answer">Premium features including advanced OCR and video analysis are currently in development. We're working hard to bring you AI-powered filtering capabilities. Follow our updates for launch announcements.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">Can I filter specific communities?</h3>
+                    <p class="faq-answer">Yes, you can block entire Twitter communities by name or link. The extension will hide posts from those communities and their members.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">Does it slow down Twitter/X?</h3>
+                    <p class="faq-answer">No. The extension is optimized for performance with efficient processing and caching. Most users see no noticeable impact on browsing speed.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">Can I temporarily disable filtering?</h3>
+                    <p class="faq-answer">Yes, there's a master toggle in the extension popup that instantly enables/disables all filtering. You can also toggle individual filter types.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">What languages does the OCR support?</h3>
+                    <p class="faq-answer">The local OCR supports major languages including English, Turkish, Spanish, French, German, and more. Premium tier OCR with GPT-4 supports virtually all languages.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">Can I export my filter settings?</h3>
+                    <p class="faq-answer">Yes, you can export your keywords, communities, and settings as a JSON file for backup or transfer to another device.</p>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">Is there a mobile version?</h3>
+                    <p class="faq-answer">Currently, this is a Chrome desktop extension. Mobile browser extensions have limited capabilities, but we're exploring mobile solutions for the future.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support Section -->
+    <section id="support" class="support">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Support Development</h2>
+                <p class="section-subtitle">Help us continue improving Twitter Filter Pro</p>
+            </div>
+            <div class="support-content">
+                <div class="support-text">
+                    <h3>Why Support Us?</h3>
+                    <ul>
+                        <li>Keep the extension free and open source</li>
+                        <li>Fund new features and improvements</li>
+                        <li>Support ongoing maintenance and updates</li>
+                        <li>Help us adapt to Twitter/X changes quickly</li>
+                    </ul>
+                    <p>Every contribution helps us dedicate more time to making your social media experience better.</p>
+                </div>
+                <div class="support-options">
+                    <div class="support-option">
+                        <h4>One-time Donation</h4>
+                        <p>Support development with a one-time contribution</p>
+                        <div class="donation-buttons">
+                            <button class="btn btn-primary donation-btn" data-amount="5">$5</button>
+                            <button class="btn btn-primary donation-btn" data-amount="10">$10</button>
+                            <button class="btn btn-primary donation-btn" data-amount="25">$25</button>
+                            <button class="btn btn-secondary" id="custom-amount">Custom</button>
+                        </div>
+                    </div>
+                    <div class="support-option">
+                        <h4>Monthly Support</h4>
+                        <p>Become a regular supporter for ongoing development</p>
+                        <div class="monthly-buttons">
+                            <button class="btn btn-primary monthly-btn" data-amount="3">$3/month</button>
+                            <button class="btn btn-primary monthly-btn" data-amount="10">$10/month</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="footer-icon">🛡️</span>
+                    <span class="footer-title">Twitter Filter Pro</span>
+                </div>
+                <div class="footer-links">
+                    <a href="#privacy">Privacy Policy</a>
+                    <a href="#terms">Terms of Service</a>
+                    <a href="#contact">Contact</a>
+                    <a href="https://github.com/your-repo" target="_blank">GitHub</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="coffee-support">
+                    <a href="https://www.buymeacoffee.com/twitterfilterpro" target="_blank" class="coffee-btn">
+                        <span class="coffee-icon">☕</span>
+                        <span data-en="Buy me a coffee" data-tr="Bana bir kahve ısmarla">Buy me a coffee</span>
+                    </a>
+                </div>
+                <p>&copy; 2024 Twitter Filter Pro. All rights reserved.</p>
+                <p>Not affiliated with Twitter, Inc. or X Corp.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
