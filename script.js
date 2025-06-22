@@ -1,4 +1,4 @@
-// Twitter Filter Pro Website JavaScript
+// Block The Unwanted Website JavaScript
 
 // Global theme and language variables
 let currentTheme = 'light';
@@ -170,6 +170,7 @@ function applyDarkTheme() {
             background: #1a1a1a !important;
             border: 1px solid #333 !important;
         }
+
         .dark-theme .support {
             background: #0f0f0f !important;
         }
@@ -272,6 +273,7 @@ function applyLightTheme() {
             border: 1px solid #e2e8f0 !important;
             color: #1a202c !important;
         }
+
         .light-theme .support {
             background: #f8fafc !important;
         }
@@ -387,102 +389,34 @@ function applyTranslations(lang) {
     
     // Update page title
     const titles = {
-        en: 'Twitter Filter Pro - Advanced Content Filtering Extension',
-        tr: 'Twitter Filter Pro - Gelişmiş İçerik Filtreleme Uzantısı'
+        en: 'Block The Unwanted - Advanced Content Filtering Extension',
+        tr: 'Block The Unwanted - Gelişmiş İçerik Filtreleme Uzantısı'
     };
     document.title = titles[lang] || titles.en;
 }
 
-// Check if page is opened as options page
-function checkIfOptionsPage() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const isOptionsPage = !urlParams.toString() && window.location.href.includes('extension-website');
-    const fromOptions = urlParams.get('from') === 'options';
-    
-    if (isOptionsPage || fromOptions) {
-        console.log('[Website] Detected as options page');
-        
-        // Add options page indicator
-        const navbar = document.querySelector('.navbar');
-        if (navbar) {
-            const indicator = document.createElement('div');
-            indicator.className = 'options-indicator';
-        
-            
-            // Add to navbar brand area
-            const navBrand = navbar.querySelector('.nav-brand');
-            if (navBrand) {
-                navBrand.appendChild(indicator);
-            }
-            
-            // Apply translation to the new element
-            applyTranslations(currentLang);
-        }
-        
-        // Modify hero section for options page
-        const heroTitle = document.querySelector('.hero-title');
-        const heroSubtitle = document.querySelector('.hero-subtitle');
-        
-        if (heroTitle && heroSubtitle) {
-            heroTitle.innerHTML = currentLang === 'tr' 
-                ? 'Twitter Filter Pro Ayarları' 
-                : 'Twitter Filter Pro Settings';
-            heroSubtitle.innerHTML = currentLang === 'tr'
-                ? 'Extension ayarlarınızı buradan yönetebilir, özellikler hakkında bilgi alabilirsiniz.'
-                : 'Manage your extension settings and learn about features from this page.';
-        }
-        
-        // Update install button for options page
-        const installBtn = document.getElementById('install-btn');
-        if (installBtn) {
-            const btnText = installBtn.querySelector('span:last-child');
-            if (btnText) {
-                btnText.innerHTML = currentLang === 'tr' ? 'Popup\'ı Aç' : 'Open Popup';
-            }
-            installBtn.onclick = function(e) {
-                e.preventDefault();
-                // Try to open popup or show message
-                try {
-                    chrome.action.openPopup();
-                } catch (error) {
-                    const safeLang = currentLang || 'en';
-                    alert(safeLang === 'tr' 
-                        ? 'Extension popup\'ını açmak için extension ikonuna tıklayın.' 
-                        : 'Click the extension icon to open the popup.');
-                }
-            };
-        }
-    }
-}
 
 document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize theme and language first
     initializeThemeAndLanguage();
-    
-    // Check if opened as options page and add indicator
-    checkIfOptionsPage();
-    
+
     // Install button functionality
     const installBtn = document.getElementById('install-btn');
     if (installBtn) {
         installBtn.addEventListener('click', function(e) {
             e.preventDefault();
             
-            // Check if extension is available
-            if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.id) {
-                // Extension is available - try to open popup
-                try {
-                    chrome.action.openPopup();
-                } catch (error) {
-                    const safeLang = currentLang || 'en';
-                    alert(safeLang === 'tr' 
-                        ? 'Extension popup\'ını açmak için extension ikonuna tıklayın.' 
-                        : 'Click the extension icon to open the popup.');
-                }
-            } else {
-                // Extension not available - redirect to installation info
-                showInstallationInfo();
+            // Direct to Chrome Web Store
+            const chromeWebStoreUrl = 'https://chrome.google.com/webstore/detail/block-the-unwanted/YOUR_EXTENSION_ID';
+            window.open(chromeWebStoreUrl, '_blank');
+            
+            // Track installation attempt
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'install_attempt', {
+                    event_category: 'Extension',
+                    event_label: 'chrome_web_store'
+                });
             }
         });
     }
@@ -639,31 +573,53 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Donation button functionality
+    // Donation button functionality - direct to Buy Me a Coffee
     const donationButtons = document.querySelectorAll('.donation-btn');
     donationButtons.forEach(button => {
         button.addEventListener('click', function() {
-            const amount = this.dataset.amount;
-            handleDonation(amount, 'one-time');
+            // Direct to Buy Me a Coffee page
+            window.open('https://coff.ee/birkankader', '_blank');
+            
+            // Track donation click
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'donation_click', {
+                    event_category: 'Donation',
+                    event_label: 'coffee_button'
+                });
+            }
         });
     });
 
-    // Monthly support buttons
+    // Monthly support buttons - direct to Buy Me a Coffee for membership
     const monthlyButtons = document.querySelectorAll('.monthly-btn');
     monthlyButtons.forEach(button => {
         button.addEventListener('click', function() {
-            const amount = this.dataset.amount;
-            handleDonation(amount, 'monthly');
+            // Direct to Buy Me a Coffee page where user can join membership
+            window.open('https://coff.ee/birkankader', '_blank');
+            
+            // Track membership click
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'membership_click', {
+                    event_category: 'Donation',
+                    event_label: 'monthly_membership'
+                });
+            }
         });
     });
 
-    // Custom amount donation
+    // Custom amount donation - direct to Buy Me a Coffee
     const customAmountBtn = document.getElementById('custom-amount');
     if (customAmountBtn) {
         customAmountBtn.addEventListener('click', function() {
-            const amount = prompt('Enter custom donation amount (USD):');
-            if (amount && !isNaN(amount) && parseFloat(amount) > 0) {
-                handleDonation(amount, 'one-time');
+            // Direct to Buy Me a Coffee page where user can select amount
+            window.open('https://coff.ee/birkankader', '_blank');
+            
+            // Track custom amount click
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'custom_amount_click', {
+                    event_category: 'Donation',
+                    event_label: 'custom_amount_button'
+                });
             }
         });
     }
@@ -776,7 +732,7 @@ document.addEventListener('DOMContentLoaded', function() {
             trackEvent('click', 'primary_button', e.target.textContent);
         }
         if (e.target.matches('.donation-btn')) {
-            trackEvent('donation_attempt', 'amount', e.target.dataset.amount);
+            trackEvent('donation_click', 'coffee_button', 'button_click');
         }
     });
 });
@@ -799,9 +755,11 @@ function handleDonation(amount, type) {
         // PayPal implementation would go here
         console.log('Redirecting to PayPal...');
     } else {
-        // Fallback: open PayPal donation page
-        const paypalUrl = `https://www.paypal.com/donate?business=YOUR_PAYPAL_EMAIL&amount=${amount}&currency_code=USD&item_name=Twitter Filter Pro Development`;
-        window.open(paypalUrl, '_blank');
+        // Direct to Buy Me a Coffee main page
+        // Buy Me a Coffee doesn't support direct amount URLs
+        // Users will select amount on the platform
+        const buyMeACoffeeUrl = `https://coff.ee/birkankader`;
+        window.open(buyMeACoffeeUrl, '_blank');
     }
 
     // Track donation attempt
@@ -836,7 +794,7 @@ function showComingSoonInfo() {
                 <p>In the meantime, enjoy our powerful free tier with local OCR processing.</p>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" onclick="window.open('https://www.buymeacoffee.com/twitterfilterpro', '_blank')">Support Development</button>
+                <button class="btn btn-primary" onclick="window.open('https://coff.ee/birkankader', '_blank')">Support Development</button>
                 <button class="btn btn-secondary modal-close">Close</button>
             </div>
         </div>
