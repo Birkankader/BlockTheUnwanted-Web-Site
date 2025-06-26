@@ -511,7 +511,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (isFree) {
                 // Direct to installation
-                window.open('https://chrome.google.com/webstore/detail/twitter-filter-pro/YOUR_EXTENSION_ID', '_blank');
+                window.open('https://chromewebstore.google.com/detail/block-the-unwanted/pchajhojhlhfaealmbncjjkabmemaefb', '_blank');
             } else {
                 // Show coming soon message
                 showComingSoonInfo();
