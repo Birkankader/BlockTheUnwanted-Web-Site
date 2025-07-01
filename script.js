@@ -870,38 +870,45 @@ document.addEventListener("DOMContentLoaded", function () {
       }, 5000);
     }
 
-    // Send bug report function using ContactSection.tsx approach
     async function sendBugReport(reportData) {
-      // Check if EmailJS is properly configured (like in ContactSection.tsx)
-      if (!isEmailConfigComplete()) {
-        throw new Error(
-          "EmailJS konfigürasyonu eksik. Lütfen environment variables'ları kontrol edin."
-        );
-      }
-
-      try {
-        const config = getEmailConfig();
-
-        const templateParams = {
-          // Standard EmailJS fields
-          to_name: "Birkan Kader",
-          from_name: reportData.email,
-          reply_to: reportData.email,
-
-          // Custom fields for our template
-          type: reportData.type,
-          email: reportData.email,
-          subject: reportData.subject,
-          description: reportData.description,
-          browser: reportData.browser,
-          priority: reportData.priority,
-          timestamp: reportData.timestamp,
-          language: reportData.language,
-          url: reportData.url,
-          user_agent: reportData.userAgent,
-
-          // Formatted message
-          message: `
+            try {
+                // EmailJS Template Variables (use these in your template):
+                // {{to_name}} - Recipient name
+                // {{from_name}} - Sender email
+                // {{reply_to}} - Reply-to email
+                // {{type}} - Report type (bug/feature/support)
+                // {{email}} - User email
+                // {{subject}} - Report subject
+                // {{description}} - Detailed description
+                // {{browser}} - Browser info
+                // {{priority}} - Priority level
+                // {{timestamp}} - When sent
+                // {{language}} - Interface language
+                // {{url}} - Website URL
+                // {{user_agent}} - User agent string
+                // {{message}} - Formatted complete message
+                
+                // Use EmailJS to send the report
+                const templateParams = {
+                    // Standard EmailJS fields
+                    to_name: 'Birkan Kader',
+                    from_name: reportData.email,
+                    reply_to: reportData.email,
+                    
+                    // Custom fields for our template
+                    type: reportData.type,
+                    email: reportData.email,
+                    subject: reportData.subject,
+                    description: reportData.description,
+                    browser: reportData.browser,
+                    priority: reportData.priority,
+                    timestamp: reportData.timestamp,
+                    language: reportData.language,
+                    url: reportData.url,
+                    user_agent: reportData.userAgent,
+                    
+                    // Formatted message
+                    message: `
 Report Type: ${reportData.type}
 Priority: ${reportData.priority}
 Email: ${reportData.email}
@@ -917,63 +924,163 @@ ${reportData.description}
 ---
 Website URL: ${reportData.url}
 User Agent: ${reportData.userAgent}
-                    `.trim(),
-        };
+                    `.trim()
+                };
 
-        // Use sendForm method like in ContactSection.tsx
-        const result = await emailjs.sendForm(
-          config.serviceId,
-          config.templateId,
-          templateParams,
-          config.publicKey
-        );
+                // Debug: Log template params
+                console.log('EmailJS Template Params:', templateParams);
 
-        console.log("✅ EmailJS Success:", result);
-        return result;
-      } catch (error) {
-        console.error("❌ EmailJS Error:", error);
+                // Check if config is available
+                if (!window.EMAIL_CONFIG || window.EMAIL_CONFIG.serviceId === 'YOUR_SERVICE_ID') {
+                    throw new Error('EmailJS configuration not set. Please update config.js with your credentials.');
+                }
 
-        // Fallback to mailto if EmailJS fails
-        const formData = new FormData(form);
-        const reportData = {
-          type: formData.get("type") || "bug",
-          email: formData.get("email") || "",
-          subject: formData.get("subject") || "",
-          description: formData.get("description") || "",
-          browser: formData.get("browser") || "",
-          priority: formData.get("priority") || "medium",
-        };
+                const result = await emailjs.send(
+                    window.EMAIL_CONFIG.serviceId,
+                    window.EMAIL_CONFIG.templateId,
+                    templateParams,
+                    window.EMAIL_CONFIG.publicKey
+                );
 
-        const subject = encodeURIComponent(
-          `[Block The Unwanted] ${reportData.type.toUpperCase()}: ${
-            reportData.subject
-          }`
-        );
-        const body = encodeURIComponent(`
+                console.log('EmailJS Success:', result);
+                console.log('EmailJS Response Status:', result.status);
+                console.log('EmailJS Response Text:', result.text);
+                return result;
+
+            } catch (error) {
+                console.error('EmailJS Error:', error);
+                
+                // Fallback to mailto if EmailJS fails
+                const subject = encodeURIComponent(`[Block The Unwanted] ${reportData.type.toUpperCase()}: ${reportData.subject}`);
+                const body = encodeURIComponent(`
 Report Type: ${reportData.type}
 Priority: ${reportData.priority}
 Email: ${reportData.email}
 Browser: ${reportData.browser}
-Timestamp: ${new Date().toISOString()}
-
-Subject: ${reportData.subject}
+Language: ${reportData.language}
+Timestamp: ${reportData.timestamp}
 
 Description:
 ${reportData.description}
 
 ---
-This report was sent from: ${window.location.href}
-User Agent: ${navigator.userAgent}
+This report was sent from: ${reportData.url}
+User Agent: ${reportData.userAgent}
                 `);
-
-        const mailtoLink = `mailto:birkankader@gmail.com?subject=${subject}&body=${body}`;
-        window.location.href = mailtoLink;
-
-        // Re-throw error to be handled by the caller
-        throw new Error("EmailJS failed, opened mailto as fallback");
-      }
+                
+                const mailtoLink = `mailto:birkankader@gmail.com?subject=${subject}&body=${body}`;
+                window.location.href = mailtoLink;
+                
+                // Re-throw error to be handled by the caller
+                throw new Error('EmailJS failed, opened mailto as fallback');
+            }
+        }
     }
-  }
+
+    // Send bug report function using ContactSection.tsx approach
+//     async function sendBugReport(reportData) {
+//       // Check if EmailJS is properly configured (like in ContactSection.tsx)
+//       if (!isEmailConfigComplete()) {
+//         throw new Error(
+//           "EmailJS konfigürasyonu eksik. Lütfen environment variables'ları kontrol edin."
+//         );
+//       }
+
+//       try {
+//         const config = getEmailConfig();
+
+//         const templateParams = {
+//           // Standard EmailJS fields
+//           to_name: "Birkan Kader",
+//           from_name: reportData.email,
+//           reply_to: reportData.email,
+
+//           // Custom fields for our template
+//           type: reportData.type,
+//           email: reportData.email,
+//           subject: reportData.subject,
+//           description: reportData.description,
+//           browser: reportData.browser,
+//           priority: reportData.priority,
+//           timestamp: reportData.timestamp,
+//           language: reportData.language,
+//           url: reportData.url,
+//           user_agent: reportData.userAgent,
+
+//           // Formatted message
+//           message: `
+// Report Type: ${reportData.type}
+// Priority: ${reportData.priority}
+// Email: ${reportData.email}
+// Browser: ${reportData.browser}
+// Language: ${reportData.language}
+// Timestamp: ${reportData.timestamp}
+
+// Subject: ${reportData.subject}
+
+// Description:
+// ${reportData.description}
+
+// ---
+// Website URL: ${reportData.url}
+// User Agent: ${reportData.userAgent}
+//                     `.trim(),
+//         };
+
+//         // Use sendForm method like in ContactSection.tsx
+//         const result = await emailjs.sendForm(
+//           config.serviceId,
+//           config.templateId,
+//           templateParams,
+//           config.publicKey
+//         );
+
+//         console.log("✅ EmailJS Success:", result);
+//         return result;
+//       } catch (error) {
+//         console.error("❌ EmailJS Error:", error);
+
+//         // Fallback to mailto if EmailJS fails
+//         const formData = new FormData(form);
+//         const reportData = {
+//           type: formData.get("type") || "bug",
+//           email: formData.get("email") || "",
+//           subject: formData.get("subject") || "",
+//           description: formData.get("description") || "",
+//           browser: formData.get("browser") || "",
+//           priority: formData.get("priority") || "medium",
+//         };
+
+//         const subject = encodeURIComponent(
+//           `[Block The Unwanted] ${reportData.type.toUpperCase()}: ${
+//             reportData.subject
+//           }`
+//         );
+//         const body = encodeURIComponent(`
+// Report Type: ${reportData.type}
+// Priority: ${reportData.priority}
+// Email: ${reportData.email}
+// Browser: ${reportData.browser}
+// Timestamp: ${new Date().toISOString()}
+
+// Subject: ${reportData.subject}
+
+// Description:
+// ${reportData.description}
+
+// ---
+// This report was sent from: ${window.location.href}
+// User Agent: ${navigator.userAgent}
+//                 `);
+
+//         const mailtoLink = `mailto:birkankader@gmail.com?subject=${subject}&body=${body}`;
+//         window.location.href = mailtoLink;
+
+//         // Re-throw error to be handled by the caller
+//         throw new Error("EmailJS failed, opened mailto as fallback");
+//       }
+//     }
+  
 
   // Pricing buttons
   const pricingButtons = document.querySelectorAll(".pricing-btn");
