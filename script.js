@@ -405,6 +405,20 @@ function updateBMCWidgetMessage(lang) {
     }, 1000);
 }
 
+// Initialize EmailJS with config
+function initializeEmailJS() {
+    if (typeof emailjs !== 'undefined' && window.EMAIL_CONFIG && window.EMAIL_CONFIG.publicKey !== 'YOUR_PUBLIC_KEY') {
+        try {
+            emailjs.init(window.EMAIL_CONFIG.publicKey);
+            console.log('[Website] EmailJS initialized successfully');
+        } catch (error) {
+            console.error('[Website] EmailJS initialization failed:', error);
+        }
+    } else {
+        console.warn('[Website] EmailJS not available or config not set. Please update config.js with your credentials.');
+    }
+}
+
 // Apply translations to elements
 function applyTranslations(lang) {
     const elements = document.querySelectorAll('[data-en][data-tr]');
@@ -439,6 +453,9 @@ function applyTranslations(lang) {
 
 
 document.addEventListener('DOMContentLoaded', function() {
+    
+    // Initialize EmailJS
+    initializeEmailJS();
     
     // Initialize theme and language first
     initializeThemeAndLanguage();
@@ -586,6 +603,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 url: window.location.href
             };
 
+            // Debug: Log form data to console
+            console.log('Form Data Debug:', {
+                type: reportData.type,
+                email: reportData.email,
+                subject: reportData.subject,
+                description: reportData.description,
+                browser: reportData.browser,
+                priority: reportData.priority
+            });
+
+            // Validate required fields
+            if (!reportData.type || !reportData.email || !reportData.subject || !reportData.description) {
+                showFormStatus('error', currentLang === 'tr' 
+                    ? 'Lütfen tüm gerekli alanları doldurun.' 
+                    : 'Please fill in all required fields.');
+                return;
+            }
+
             // Disable submit button
             const submitBtn = document.getElementById('submit-report');
             const originalText = submitBtn.innerHTML;
@@ -647,7 +682,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Show different messages based on error type
                 let errorMessage;
-                if (error.message && error.message.includes('EmailJS failed')) {
+                if (error.message && error.message.includes('EmailJS configuration not set')) {
+                    errorMessage = currentLang === 'tr' 
+                        ? 'E-posta yapılandırması eksik. Lütfen site yöneticisiyle iletişime geçin.' 
+                        : 'Email configuration missing. Please contact the site administrator.';
+                } else if (error.message && error.message.includes('EmailJS failed')) {
                     errorMessage = currentLang === 'tr' 
                         ? 'E-posta servisi kullanılamıyor, mail uygulamanız açıldı. Lütfen e-postayı gönderin.' 
                         : 'Email service unavailable, your mail app was opened. Please send the email.';
@@ -684,32 +723,79 @@ document.addEventListener('DOMContentLoaded', function() {
         // Send bug report function
         async function sendBugReport(reportData) {
             try {
+                // EmailJS Template Variables (use these in your template):
+                // {{to_name}} - Recipient name
+                // {{from_name}} - Sender email
+                // {{reply_to}} - Reply-to email
+                // {{type}} - Report type (bug/feature/support)
+                // {{email}} - User email
+                // {{subject}} - Report subject
+                // {{description}} - Detailed description
+                // {{browser}} - Browser info
+                // {{priority}} - Priority level
+                // {{timestamp}} - When sent
+                // {{language}} - Interface language
+                // {{url}} - Website URL
+                // {{user_agent}} - User agent string
+                // {{message}} - Formatted complete message
+                
                 // Use EmailJS to send the report
                 const templateParams = {
-                    to_email: 'birkankader@gmail.com',
-                    from_email: reportData.email,
-                    subject: `[Block The Unwanted] ${reportData.type.toUpperCase()}: ${reportData.subject}`,
-                    report_type: reportData.type,
-                    priority: reportData.priority,
-                    user_email: reportData.email,
-                    browser_info: reportData.browser,
-                    language: reportData.language,
-                    timestamp: reportData.timestamp,
+                    // Standard EmailJS fields
+                    to_name: 'Birkan Kader',
+                    from_name: reportData.email,
+                    reply_to: reportData.email,
+                    
+                    // Custom fields for our template
+                    type: reportData.type,
+                    email: reportData.email,
+                    subject: reportData.subject,
                     description: reportData.description,
-                    website_url: reportData.url,
+                    browser: reportData.browser,
+                    priority: reportData.priority,
+                    timestamp: reportData.timestamp,
+                    language: reportData.language,
+                    url: reportData.url,
                     user_agent: reportData.userAgent,
-                    // Additional fields for the template
-                    reply_to: reportData.email
+                    
+                    // Formatted message
+                    message: `
+Report Type: ${reportData.type}
+Priority: ${reportData.priority}
+Email: ${reportData.email}
+Browser: ${reportData.browser}
+Language: ${reportData.language}
+Timestamp: ${reportData.timestamp}
+
+Subject: ${reportData.subject}
+
+Description:
+${reportData.description}
+
+---
+Website URL: ${reportData.url}
+User Agent: ${reportData.userAgent}
+                    `.trim()
                 };
 
+                // Debug: Log template params
+                console.log('EmailJS Template Params:', templateParams);
+
+                // Check if config is available
+                if (!window.EMAIL_CONFIG || window.EMAIL_CONFIG.serviceId === 'YOUR_SERVICE_ID') {
+                    throw new Error('EmailJS configuration not set. Please update config.js with your credentials.');
+                }
+
                 const result = await emailjs.send(
-                    'service_rvvtd2v',
-                    'template_wo2ohc9',
+                    window.EMAIL_CONFIG.serviceId,
+                    window.EMAIL_CONFIG.templateId,
                     templateParams,
-                    '8mKkSTCFk57ZOgGUc'
+                    window.EMAIL_CONFIG.publicKey
                 );
 
                 console.log('EmailJS Success:', result);
+                console.log('EmailJS Response Status:', result.status);
+                console.log('EmailJS Response Text:', result.text);
                 return result;
 
             } catch (error) {
