@@ -902,38 +902,38 @@ document.addEventListener("DOMContentLoaded", function () {
                 const templateParams = {
                     // Standard EmailJS fields
                     to_name: 'Birkan Kader',
-                    from_name: reportData.email,
-                    reply_to: reportData.email,
+                    from_name: reportData.email.value,
+                    reply_to: reportData.email.value,
                     
                     // Custom fields for our template
-                    type: reportData.type,
-                    email: reportData.email,
-                    subject: reportData.subject,
-                    description: reportData.description,
-                    browser: reportData.browser,
-                    priority: reportData.priority,
-                    timestamp: reportData.timestamp,
-                    language: reportData.language,
-                    url: reportData.url,
-                    user_agent: reportData.userAgent,
+                    type: reportData.type.value,
+                    email: reportData.email.value,
+                    subject: reportData.subject.value,
+                    description: reportData.description.value,
+                    browser: reportData.browser.value,
+                    priority: reportData.priority.value,
+                    timestamp: reportData.timestamp.value,
+                    language: reportData.language.value,
+                    url: reportData.url.value,
+                    user_agent: reportData.userAgent.value,
                     
                     // Formatted message
                     message: `
-Report Type: ${reportData.type}
-Priority: ${reportData.priority}
-Email: ${reportData.email}
-Browser: ${reportData.browser}
-Language: ${reportData.language}
-Timestamp: ${reportData.timestamp}
+Report Type: ${reportData.type.value}
+Priority: ${reportData.priority.value}
+Email: ${reportData.email.value}
+Browser: ${reportData.browser.value}
+Language: ${reportData.language.value}
+Timestamp: ${reportData.timestamp.value}
 
-Subject: ${reportData.subject}
+Subject: ${reportData.subject.value}
 
 Description:
-${reportData.description}
+${reportData.description.value}
 
 ---
-Website URL: ${reportData.url}
-User Agent: ${reportData.userAgent}
+Website URL: ${reportData.url.value}
+User Agent: ${reportData.userAgent.value}
                     `.trim()
                 };
 
@@ -956,21 +956,21 @@ User Agent: ${reportData.userAgent}
                 console.error('EmailJS Error:', error);
                 
                 // Fallback to mailto if EmailJS fails
-                const subject = encodeURIComponent(`[Block The Unwanted] ${reportData.type.toUpperCase()}: ${reportData.subject}`);
+                const subject = encodeURIComponent(`[Block The Unwanted] ${reportData.type.value.toUpperCase()}: ${reportData.subject.value}`);
                 const body = encodeURIComponent(`
-Report Type: ${reportData.type}
+Report Type: ${reportData.type.value}
 Priority: ${reportData.priority}
-Email: ${reportData.email}
-Browser: ${reportData.browser}
-Language: ${reportData.language}
-Timestamp: ${reportData.timestamp}
+Email: ${reportData.email.value}
+Browser: ${reportData.browser.value}
+Language: ${reportData.language.value}
+Timestamp: ${reportData.timestamp.value}
 
 Description:
-${reportData.description}
+${reportData.description.value}
 
 ---
-This report was sent from: ${reportData.url}
-User Agent: ${reportData.userAgent}
+This report was sent from: ${reportData.url.value}
+User Agent: ${reportData.userAgent.value}
                 `);
                 
                 const mailtoLink = `mailto:birkankader@gmail.com?subject=${subject}&body=${body}`;
