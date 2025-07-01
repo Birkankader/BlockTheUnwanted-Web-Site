@@ -407,13 +407,12 @@ function updateBMCWidgetMessage(lang) {
 
 // Get environment variables (compatible with both Vite and vanilla JS)
 function getEmailConfig() {
-    // For vanilla JS deployment, these values will be replaced by build process or runtime injection
-    // For Vite, these will be replaced by actual environment variables
+    // These placeholder values will be replaced by build process with actual environment variables
     return {
-        serviceId: 'service_rvvtd2v',
-        templateId: 'template_wo2ohc9',
-        publicKey: '8mKkSTCFk57ZOgGUc',
-        recipientEmail: 'birkankader@gmail.com'
+        serviceId: '__VITE_EMAILJS_SERVICE_ID__',
+        templateId: '__VITE_EMAILJS_TEMPLATE_ID__',
+        publicKey: '__VITE_EMAILJS_PUBLIC_KEY__',
+        recipientEmail: '__VITE_RECIPIENT_EMAIL__'
     };
 }
 
