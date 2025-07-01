@@ -368,6 +368,15 @@
                 
                 <div class="report-form-container">
                     <form id="bug-report-form" class="report-form">
+                        <!-- Hidden fields for EmailJS template -->
+                        <input type="hidden" name="to_name" value="Birkan Kader">
+                        <input type="hidden" name="from_name" id="hidden-from-name">
+                        <input type="hidden" name="reply_to" id="hidden-reply-to">
+                        <input type="hidden" name="timestamp" id="hidden-timestamp">
+                        <input type="hidden" name="language" id="hidden-language">
+                        <input type="hidden" name="url" id="hidden-url">
+                        <input type="hidden" name="user_agent" id="hidden-user-agent">
+                        
                         <div class="form-group">
                             <label for="report-type" data-en="Report Type" data-tr="Rapor Türü">Report Type</label>
                             <select id="report-type" name="type" required>
@@ -464,10 +473,10 @@
     <!-- Runtime Environment Variables (will be injected by build process) -->
     <script>
         window.netlifyEnv = {
-            VITE_EMAILJS_SERVICE_ID: '__VITE_EMAILJS_SERVICE_ID__',
-            VITE_EMAILJS_TEMPLATE_ID: '__VITE_EMAILJS_TEMPLATE_ID__',
-            VITE_EMAILJS_PUBLIC_KEY: '__VITE_EMAILJS_PUBLIC_KEY__',
-            VITE_RECIPIENT_EMAIL: '__VITE_RECIPIENT_EMAIL__'
+            VITE_EMAILJS_SERVICE_ID: 'service_rvvtd2v',
+            VITE_EMAILJS_TEMPLATE_ID: 'template_wo2ohc9',
+            VITE_EMAILJS_PUBLIC_KEY: '8mKkSTCFk57ZOgGUc',
+            VITE_RECIPIENT_EMAIL: 'birkankader@gmail.com'
         };
     </script>
     
