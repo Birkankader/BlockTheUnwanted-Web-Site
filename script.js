@@ -758,9 +758,24 @@ document.addEventListener("DOMContentLoaded", function () {
                 ${currentLang === "tr" ? "Gönderiliyor..." : "Sending..."}
             `;
 
-      try {
-        // Use sendForm method like in ContactSection.tsx
-        await sendBugReport(form);
+              try {
+          // Get form data
+          const formData = new FormData(form);
+          const reportData = {
+            type: formData.get('type'),
+            email: formData.get('email'),
+            subject: formData.get('subject'),
+            description: formData.get('description'),
+            browser: formData.get('browser'),
+            priority: formData.get('priority'),
+            timestamp: new Date().toISOString(),
+            language: currentLang,
+            userAgent: navigator.userAgent,
+            url: window.location.href
+          };
+          
+          // Use sendForm method like in ContactSection.tsx
+          await sendBugReport(reportData);
 
         // Show success message
         showFormStatus(
@@ -898,43 +913,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 const config = getEmailConfig();
                 
-                // Use EmailJS to send the report
-                const templateParams = {
-                    // Standard EmailJS fields
-                    to_name: 'Birkan Kader',
-                    from_name: reportData.email.value,
-                    reply_to: reportData.email.value,
+                                 // Use EmailJS to send the report
+                 const templateParams = {
+                     // Standard EmailJS fields
+                     to_name: 'Birkan Kader',
+                     from_name: reportData.email,
+                     reply_to: reportData.email,
+                     
+                     // Custom fields for our template
+                     type: reportData.type,
+                     email: reportData.email,
+                     subject: reportData.subject,
+                     description: reportData.description,
+                     browser: reportData.browser,
+                     priority: reportData.priority,
+                     timestamp: reportData.timestamp,
+                     language: reportData.language,
+                     url: reportData.url,
+                     user_agent: reportData.userAgent,
                     
-                    // Custom fields for our template
-                    type: reportData.type.value,
-                    email: reportData.email.value,
-                    subject: reportData.subject.value,
-                    description: reportData.description.value,
-                    browser: reportData.browser.value,
-                    priority: reportData.priority.value,
-                    timestamp: reportData.timestamp.value,
-                    language: reportData.language.value,
-                    url: reportData.url.value,
-                    user_agent: reportData.userAgent.value,
-                    
-                    // Formatted message
-                    message: `
-Report Type: ${reportData.type.value}
-Priority: ${reportData.priority.value}
-Email: ${reportData.email.value}
-Browser: ${reportData.browser.value}
-Language: ${reportData.language.value}
-Timestamp: ${reportData.timestamp.value}
+                                         // Formatted message
+                     message: `
+Report Type: ${reportData.type}
+Priority: ${reportData.priority}
+Email: ${reportData.email}
+Browser: ${reportData.browser}
+Language: ${reportData.language}
+Timestamp: ${reportData.timestamp}
 
-Subject: ${reportData.subject.value}
+Subject: ${reportData.subject}
 
 Description:
-${reportData.description.value}
+${reportData.description}
 
 ---
-Website URL: ${reportData.url.value}
-User Agent: ${reportData.userAgent.value}
-                    `.trim()
+Website URL: ${reportData.url}
+User Agent: ${reportData.userAgent}
+                     `.trim()
                 };
 
                 // Debug: Log template params
@@ -955,23 +970,23 @@ User Agent: ${reportData.userAgent.value}
             } catch (error) {
                 console.error('EmailJS Error:', error);
                 
-                // Fallback to mailto if EmailJS fails
-                const subject = encodeURIComponent(`[Block The Unwanted] ${reportData.type.value.toUpperCase()}: ${reportData.subject.value}`);
-                const body = encodeURIComponent(`
-Report Type: ${reportData.type.value}
+                                 // Fallback to mailto if EmailJS fails
+                 const subject = encodeURIComponent(`[Block The Unwanted] ${reportData.type.toUpperCase()}: ${reportData.subject}`);
+                 const body = encodeURIComponent(`
+Report Type: ${reportData.type}
 Priority: ${reportData.priority}
-Email: ${reportData.email.value}
-Browser: ${reportData.browser.value}
-Language: ${reportData.language.value}
-Timestamp: ${reportData.timestamp.value}
+Email: ${reportData.email}
+Browser: ${reportData.browser}
+Language: ${reportData.language}
+Timestamp: ${reportData.timestamp}
 
 Description:
-${reportData.description.value}
+${reportData.description}
 
 ---
-This report was sent from: ${reportData.url.value}
-User Agent: ${reportData.userAgent.value}
-                `);
+This report was sent from: ${reportData.url}
+User Agent: ${reportData.userAgent}
+                 `);
                 
                 const mailtoLink = `mailto:birkankader@gmail.com?subject=${subject}&body=${body}`;
                 window.location.href = mailtoLink;
