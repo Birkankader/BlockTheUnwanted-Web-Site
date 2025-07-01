@@ -432,9 +432,9 @@ function isEmailConfigComplete() {
     return config.serviceId && 
            config.templateId && 
            config.publicKey && 
-           config.serviceId !== '__VITE_EMAILJS_SERVICE_ID__' &&
-           config.templateId !== '__VITE_EMAILJS_TEMPLATE_ID__' &&
-           config.publicKey !== '__VITE_EMAILJS_PUBLIC_KEY__';
+           config.serviceId == '__VITE_EMAILJS_SERVICE_ID__' &&
+           config.templateId == '__VITE_EMAILJS_TEMPLATE_ID__' &&
+           config.publicKey == '__VITE_EMAILJS_PUBLIC_KEY__';
 }
 
 // Initialize EmailJS with environment variables
