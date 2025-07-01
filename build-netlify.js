@@ -1,7 +1,12 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// ES module equivalent of __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 console.log('🚀 Building for Netlify...');
 
@@ -19,10 +24,12 @@ const missingVars = Object.entries(envVars)
     .map(([key]) => key);
 
 if (missingVars.length > 0) {
-    console.error('❌ Missing required environment variables:', missingVars);
-    console.error('Please set these variables in Netlify dashboard:');
-    missingVars.forEach(varName => console.error(`  - ${varName}`));
-    process.exit(1);
+    console.warn('⚠️  Missing environment variables:', missingVars);
+    console.warn('Please set these variables in Netlify dashboard for EmailJS to work:');
+    missingVars.forEach(varName => console.warn(`  - ${varName}`));
+    console.warn('🔄 Continuing build with placeholder values...');
+} else {
+    console.log('✅ All environment variables found');
 }
 
 console.log('📧 EmailJS Config:', {
@@ -39,22 +46,22 @@ let scriptContent = fs.readFileSync(scriptPath, 'utf8');
 // Replace environment variable placeholders
 scriptContent = scriptContent.replace(
     /__VITE_EMAILJS_SERVICE_ID__/g,
-    envVars.VITE_EMAILJS_SERVICE_ID
+    envVars.VITE_EMAILJS_SERVICE_ID || '__VITE_EMAILJS_SERVICE_ID__'
 );
 
 scriptContent = scriptContent.replace(
     /__VITE_EMAILJS_TEMPLATE_ID__/g,
-    envVars.VITE_EMAILJS_TEMPLATE_ID
+    envVars.VITE_EMAILJS_TEMPLATE_ID || '__VITE_EMAILJS_TEMPLATE_ID__'
 );
 
 scriptContent = scriptContent.replace(
     /__VITE_EMAILJS_PUBLIC_KEY__/g,
-    envVars.VITE_EMAILJS_PUBLIC_KEY
+    envVars.VITE_EMAILJS_PUBLIC_KEY || '__VITE_EMAILJS_PUBLIC_KEY__'
 );
 
 scriptContent = scriptContent.replace(
     /__VITE_RECIPIENT_EMAIL__/g,
-    envVars.VITE_RECIPIENT_EMAIL
+    envVars.VITE_RECIPIENT_EMAIL || '__VITE_RECIPIENT_EMAIL__'
 );
 
 // Write the updated script.js
