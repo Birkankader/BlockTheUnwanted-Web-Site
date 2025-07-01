@@ -405,17 +405,30 @@ function updateBMCWidgetMessage(lang) {
     }, 1000);
 }
 
-// Initialize EmailJS with config
+// Get environment variables (Vite style)
+function getEmailConfig() {
+    return {
+        serviceId: import.meta.env?.VITE_EMAILJS_SERVICE_ID || process.env?.VITE_EMAILJS_SERVICE_ID,
+        templateId: import.meta.env?.VITE_EMAILJS_TEMPLATE_ID || process.env?.VITE_EMAILJS_TEMPLATE_ID,
+        publicKey: import.meta.env?.VITE_EMAILJS_PUBLIC_KEY || process.env?.VITE_EMAILJS_PUBLIC_KEY,
+        recipientEmail: import.meta.env?.VITE_RECIPIENT_EMAIL || process.env?.VITE_RECIPIENT_EMAIL || 'birkankader@gmail.com'
+    };
+}
+
+// Initialize EmailJS with environment variables
 function initializeEmailJS() {
-    if (typeof emailjs !== 'undefined' && window.EMAIL_CONFIG && window.EMAIL_CONFIG.publicKey !== 'YOUR_PUBLIC_KEY') {
+    const config = getEmailConfig();
+    
+    if (typeof emailjs !== 'undefined' && config.publicKey && config.publicKey !== 'your_public_key') {
         try {
-            emailjs.init(window.EMAIL_CONFIG.publicKey);
-            console.log('[Website] EmailJS initialized successfully');
+            emailjs.init(config.publicKey);
+            console.log('[Website] EmailJS initialized successfully with env vars');
         } catch (error) {
             console.error('[Website] EmailJS initialization failed:', error);
         }
     } else {
-        console.warn('[Website] EmailJS not available or config not set. Please update config.js with your credentials.');
+        console.warn('[Website] EmailJS not available or environment variables not set. Please check your .env file or Netlify environment variables.');
+        console.warn('[Website] Expected variables: VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, VITE_EMAILJS_PUBLIC_KEY');
     }
 }
 
@@ -682,7 +695,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Show different messages based on error type
                 let errorMessage;
-                if (error.message && error.message.includes('EmailJS configuration not set')) {
+                if (error.message && error.message.includes('EmailJS environment variables not set')) {
                     errorMessage = currentLang === 'tr' 
                         ? 'E-posta yapılandırması eksik. Lütfen site yöneticisiyle iletişime geçin.' 
                         : 'Email configuration missing. Please contact the site administrator.';
@@ -781,16 +794,19 @@ User Agent: ${reportData.userAgent}
                 // Debug: Log template params
                 console.log('EmailJS Template Params:', templateParams);
 
-                // Check if config is available
-                if (!window.EMAIL_CONFIG || window.EMAIL_CONFIG.serviceId === 'YOUR_SERVICE_ID') {
-                    throw new Error('EmailJS configuration not set. Please update config.js with your credentials.');
+                // Get environment variables
+                const config = getEmailConfig();
+                
+                // Check if environment variables are available
+                if (!config.serviceId || config.serviceId === 'your_service_id') {
+                    throw new Error('EmailJS environment variables not set. Please check your .env file or Netlify environment variables.');
                 }
 
                 const result = await emailjs.send(
-                    window.EMAIL_CONFIG.serviceId,
-                    window.EMAIL_CONFIG.templateId,
+                    config.serviceId,
+                    config.templateId,
                     templateParams,
-                    window.EMAIL_CONFIG.publicKey
+                    config.publicKey
                 );
 
                 console.log('EmailJS Success:', result);

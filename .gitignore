@@ -1,10 +1,11 @@
-# EmailJS Configuration (contains sensitive data)
-config.js
-
-# Environment variables
+# Environment variables (contains sensitive data)
 .env
 .env.local
 .env.production
+.env.development
+
+# Legacy config files (no longer used)
+config.js
 
 # IDE files
 .vscode/

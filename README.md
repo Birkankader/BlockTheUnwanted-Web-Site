@@ -10,25 +10,38 @@ git clone <repository-url>
 cd extension-website
 ```
 
-### 2. EmailJS Yapılandırması
+### 2. Environment Variables Yapılandırması
 
-Bug report formu çalışması için EmailJS yapılandırması gereklidir:
+Bug report formu çalışması için EmailJS environment variables gereklidir:
 
+#### Yerel Geliştirme İçin:
 1. [EmailJS Dashboard](https://dashboard.emailjs.com/)'a gidin
 2. Hesap oluşturun veya giriş yapın
 3. Yeni bir servis oluşturun (Gmail, Outlook, vb.)
 4. Yeni bir template oluşturun
-5. `config.example.js` dosyasını `config.js` olarak kopyalayın
-6. `config.js` dosyasındaki değerleri kendi EmailJS bilgilerinizle değiştirin
+5. `.env.example` dosyasını `.env` olarak kopyalayın
+6. `.env` dosyasındaki değerleri kendi EmailJS bilgilerinizle değiştirin
 
-```javascript
-const EMAIL_CONFIG = {
-    serviceId: 'your_service_id',
-    templateId: 'your_template_id', 
-    publicKey: 'your_public_key',
-    recipientEmail: 'your-email@example.com'
-};
+```bash
+cp .env.example .env
 ```
+
+`.env` dosyası:
+```env
+VITE_EMAILJS_SERVICE_ID=service_rvvtd2v
+VITE_EMAILJS_TEMPLATE_ID=template_wo2ohc9
+VITE_EMAILJS_PUBLIC_KEY=8mKkSTCFk57ZOgGUc
+VITE_RECIPIENT_EMAIL=birkankader@gmail.com
+```
+
+#### Netlify Deployment İçin:
+1. Netlify Dashboard'a gidin
+2. Site Settings > Environment Variables
+3. Şu değişkenleri ekleyin:
+   - `VITE_EMAILJS_SERVICE_ID`
+   - `VITE_EMAILJS_TEMPLATE_ID`
+   - `VITE_EMAILJS_PUBLIC_KEY`
+   - `VITE_RECIPIENT_EMAIL`
 
 ### 3. EmailJS Template Değişkenleri
 
@@ -49,10 +62,18 @@ EmailJS template'inizde şu değişkenleri kullanabilirsiniz:
 - `{{user_agent}}` - User agent bilgisi
 - `{{message}}` - Formatlanmış tam mesaj
 
-### 4. Web Sunucusu
+### 4. Geliştirme Sunucusu
 
-Basit bir web sunucusu çalıştırın:
+#### Vite ile (Önerilen):
+```bash
+# Dependencies yükle
+npm install
 
+# Development server başlat
+npm run dev
+```
+
+#### Alternatif Basit Sunucular:
 ```bash
 # Python 3
 python -m http.server 8000
@@ -76,17 +97,20 @@ extension-website/
 ├── script.js           # JavaScript işlevselliği
 ├── styles.css          # CSS stilleri
 ├── logo.svg           # Logo dosyası
-├── config.js          # EmailJS yapılandırması (GİT'E EKLENMEMELİ)
-├── config.example.js  # Örnek yapılandırma dosyası
+├── package.json       # Node.js dependencies
+├── vite.config.js     # Vite konfigürasyonu
+├── .env               # Environment variables (GİT'E EKLENMEMELİ)
+├── .env.example       # Örnek environment variables
 ├── .gitignore         # Git ignore kuralları
 └── README.md          # Bu dosya
 ```
 
 ## 🔒 Güvenlik
 
-- `config.js` dosyası `.gitignore`'da yer alır ve Git'e commit edilmez
+- `.env` dosyası `.gitignore`'da yer alır ve Git'e commit edilmez
 - EmailJS Public Key'i frontend'de görünür olacaktır (bu normal)
-- Hassas bilgiler için environment variables kullanın
+- Environment variables `VITE_` prefix'i ile client-side'da erişilebilir
+- Netlify'da environment variables dashboard üzerinden güvenli şekilde yönetilir
 - Production'da HTTPS kullanın
 
 ## 🌐 Özellikler
