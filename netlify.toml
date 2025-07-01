@@ -3,12 +3,4 @@
   command = "npm run build:netlify"
 
 [build.environment]
-  NODE_VERSION = "18"
-
-# Environment variable substitution for static files
-[[plugins]]
-  package = "@netlify/plugin-functions"
-
-# Build command to replace environment variables in JS files
-[context.production]
-  command = "npm run build:netlify" 
+  NODE_VERSION = "18" 
