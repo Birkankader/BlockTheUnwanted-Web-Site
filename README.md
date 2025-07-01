@@ -35,13 +35,15 @@ VITE_RECIPIENT_EMAIL=birkankader@gmail.com
 ```
 
 #### Netlify Deployment İçin:
-1. Netlify Dashboard'a gidin
-2. Site Settings > Environment Variables
-3. Şu değişkenleri ekleyin:
-   - `VITE_EMAILJS_SERVICE_ID`
-   - `VITE_EMAILJS_TEMPLATE_ID`
-   - `VITE_EMAILJS_PUBLIC_KEY`
-   - `VITE_RECIPIENT_EMAIL`
+1. **GitHub'a Push**: Projeyi GitHub'a push edin
+2. **Netlify'da Import**: GitHub repo'sunu Netlify'da import edin
+3. **Environment Variables**: Site Settings > Environment Variables'a gidin
+4. **Değişkenleri Ekleyin**:
+   - `VITE_EMAILJS_SERVICE_ID` = `service_rvvtd2v`
+   - `VITE_EMAILJS_TEMPLATE_ID` = `template_wo2ohc9`
+   - `VITE_EMAILJS_PUBLIC_KEY` = `8mKkSTCFk57ZOgGUc`
+   - `VITE_RECIPIENT_EMAIL` = `birkankader@gmail.com`
+5. **Deploy**: Netlify otomatik olarak build edip deploy edecek
 
 ### 3. EmailJS Template Değişkenleri
 
@@ -99,6 +101,8 @@ extension-website/
 ├── logo.svg           # Logo dosyası
 ├── package.json       # Node.js dependencies
 ├── vite.config.js     # Vite konfigürasyonu
+├── netlify.toml       # Netlify konfigürasyonu
+├── build-netlify.js   # Netlify build script
 ├── .env               # Environment variables (GİT'E EKLENMEMELİ)
 ├── .env.example       # Örnek environment variables
 ├── .gitignore         # Git ignore kuralları

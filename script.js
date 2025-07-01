@@ -405,13 +405,15 @@ function updateBMCWidgetMessage(lang) {
     }, 1000);
 }
 
-// Get environment variables (Vite style)
+// Get environment variables (compatible with both Vite and vanilla JS)
 function getEmailConfig() {
+    // For vanilla JS deployment, these values will be replaced by build process or runtime injection
+    // For Vite, these will be replaced by actual environment variables
     return {
-        serviceId: import.meta.env?.VITE_EMAILJS_SERVICE_ID || process.env?.VITE_EMAILJS_SERVICE_ID,
-        templateId: import.meta.env?.VITE_EMAILJS_TEMPLATE_ID || process.env?.VITE_EMAILJS_TEMPLATE_ID,
-        publicKey: import.meta.env?.VITE_EMAILJS_PUBLIC_KEY || process.env?.VITE_EMAILJS_PUBLIC_KEY,
-        recipientEmail: import.meta.env?.VITE_RECIPIENT_EMAIL || process.env?.VITE_RECIPIENT_EMAIL || 'birkankader@gmail.com'
+        serviceId: 'service_rvvtd2v',
+        templateId: 'template_wo2ohc9',
+        publicKey: '8mKkSTCFk57ZOgGUc',
+        recipientEmail: 'birkankader@gmail.com'
     };
 }
 
