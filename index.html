@@ -24,6 +24,7 @@
                 <a href="#features" data-en="Features" data-tr="Özellikler">Features</a>
                 <a href="#how-it-works" data-en="How It Works" data-tr="Nasıl Çalışır">How It Works</a>
                 <a href="#faq" data-en="FAQ" data-tr="SSS">FAQ</a>
+                <a href="#bug-report" data-en="🐛 Report Bug" data-tr="🐛 Hata Bildir">🐛 Report Bug</a>
                 <a href="#support" class="nav-cta pulse-button" data-en="💝 Support Us" data-tr="💝 Destek Ol">💝 Support Us</a>
                 <div class="nav-controls">
                     <button id="theme-toggle" class="theme-toggle" title="Toggle theme">
@@ -42,7 +43,7 @@
         <div class="hero-container">
              <div class="hero-content">
                 <h1 class="hero-title" data-en="Take Control of Your X (Twitter) Feed" data-tr="X (Twitter) Akışınızı Kontrol Edin">Take Control of Your X (Twitter) Feed</h1>
-                <p class="hero-subtitle" data-en="Advanced content filtering with AI-powered OCR, video analysis, and smart community blocking. Filter what you see, reclaim your timeline." data-tr="Yapay zeka destekli OCR, video analizi ve akıllı topluluk engelleme ile gelişmiş içerik filtreleme. Gördüklerinizi filtreleyin, zaman akışınızı geri alın.">Advanced content filtering with AI-powered OCR, video analysis, and smart community blocking. Filter what you see, reclaim your timeline.</p>
+                <p class="hero-subtitle" data-en="Advanced multi-layer content filtering with Tesseract OCR, user behavior analysis, and intelligent community blocking. Block keywords in text, images, and even detect problematic users automatically. Free forever with local processing." data-tr="Tesseract OCR, kullanıcı davranış analizi ve akıllı topluluk engelleme ile gelişmiş çok katmanlı içerik filtreleme. Metin, görüntülerdeki anahtar kelimeleri engelleyin ve sorunlu kullanıcıları otomatik olarak tespit edin. Yerel işleme ile sonsuza kadar ücretsiz.">Advanced multi-layer content filtering with Tesseract OCR, user behavior analysis, and intelligent community blocking. Block keywords in text, images, and even detect problematic users automatically. Free forever with local processing.</p>
                 <div class="hero-buttons">
                     <a href="#" class="btn btn-primary" id="install-btn">
                         <span class="btn-icon">⬇️</span>
@@ -79,39 +80,54 @@
     <section id="features" class="features">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title" data-en="Powerful Filtering Features" data-tr="Güçlü Filtreleme Özellikleri">Powerful Filtering Features</h2>
-                <p class="section-subtitle" data-en="Advanced AI-powered content filtering that works in real-time" data-tr="Gerçek zamanlı çalışan gelişmiş yapay zeka destekli içerik filtreleme">Advanced AI-powered content filtering that works in real-time</p>
+                <h2 class="section-title" data-en="Comprehensive Filtering Capabilities" data-tr="Kapsamlı Filtreleme Yetenekleri">Comprehensive Filtering Capabilities</h2>
+                <p class="section-subtitle" data-en="Advanced multi-layer content filtering with AI-powered analysis and real-time processing" data-tr="Yapay zeka destekli analiz ve gerçek zamanlı işleme ile gelişmiş çok katmanlı içerik filtreleme">Advanced multi-layer content filtering with AI-powered analysis and real-time processing</p>
             </div>
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">📝</div>
-                    <h3 class="feature-title" data-en="Text Analysis" data-tr="Metin Analizi">Text Analysis</h3>
-                    <p class="feature-description" data-en="Instantly filter tweets containing specific keywords or phrases. Fast and reliable text matching." data-tr="Belirli anahtar kelimeler veya ifadeler içeren tweet'leri anında filtreleyin. Hızlı ve güvenilir metin eşleştirme.">Instantly filter tweets containing specific keywords or phrases. Fast and reliable text matching.</p>
+                    <h3 class="feature-title" data-en="Smart Text Analysis" data-tr="Akıllı Metin Analizi">Smart Text Analysis</h3>
+                    <p class="feature-description" data-en="Lightning-fast keyword detection with case-sensitive options, multi-language support, and pattern matching. Processes thousands of tweets per second." data-tr="Büyük/küçük harf duyarlı seçenekler, çok dil desteği ve kalıp eşleştirme ile yıldırım hızında anahtar kelime tespiti. Saniyede binlerce tweet işler.">Lightning-fast keyword detection with case-sensitive options, multi-language support, and pattern matching. Processes thousands of tweets per second.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">👥</div>
-                    <h3 class="feature-title" data-en="Community Blocking" data-tr="Topluluk Engelleme">Community Blocking</h3>
-                    <p class="feature-description" data-en="Block entire communities and their member posts. Comprehensive community-level filtering." data-tr="Tüm toplulukları ve üye gönderilerini engelleyin. Kapsamlı topluluk düzeyinde filtreleme.">Block entire communities and their member posts. Comprehensive community-level filtering.</p>
+                    <h3 class="feature-title" data-en="Advanced Community Blocking" data-tr="Gelişmiş Topluluk Engelleme">Advanced Community Blocking</h3>
+                    <p class="feature-description" data-en="Block entire X communities, their posts, and member content. Supports community URLs, names, and automatic member detection with intelligent context analysis." data-tr="Tüm X topluluklarını, gönderilerini ve üye içeriklerini engelleyin. Topluluk URL'leri, isimleri ve akıllı bağlam analizi ile otomatik üye tespitini destekler.">Block entire X communities, their posts, and member content. Supports community URLs, names, and automatic member detection with intelligent context analysis.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🔍</div>
-                    <h3 class="feature-title" data-en="Local OCR Processing" data-tr="Yerel OCR İşleme">Local OCR Processing</h3>
-                    <p class="feature-description" data-en="Extract text from images using local processing. No data sent to external servers. Works offline." data-tr="Yerel işleme kullanarak görüntülerden metin çıkarın. Dış sunuculara veri gönderilmez. Çevrimdışı çalışır.">Extract text from images using local processing. No data sent to external servers. Works offline.</p>
+                    <h3 class="feature-title" data-en="Tesseract OCR Engine" data-tr="Tesseract OCR Motoru">Tesseract OCR Engine</h3>
+                    <p class="feature-description" data-en="Powerful local OCR using Tesseract.js with English and Turkish language support. Extracts text from images, screenshots, and memes with 85%+ accuracy." data-tr="İngilizce ve Türkçe dil desteği ile Tesseract.js kullanarak güçlü yerel OCR. Görüntülerden, ekran görüntülerinden ve memelerden %85+ doğrulukla metin çıkarır.">Powerful local OCR using Tesseract.js with English and Turkish language support. Extracts text from images, screenshots, and memes with 85%+ accuracy.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3 class="feature-title" data-en="User Behavior Analysis" data-tr="Kullanıcı Davranış Analizi">User Behavior Analysis</h3>
+                    <p class="feature-description" data-en="Automatically analyzes user profiles for excessive keyword usage. Blocks accounts that frequently post filtered content with configurable thresholds." data-tr="Aşırı anahtar kelime kullanımı için kullanıcı profillerini otomatik olarak analiz eder. Yapılandırılabilir eşiklerle filtrelenen içeriği sık sık gönderen hesapları engeller.">Automatically analyzes user profiles for excessive keyword usage. Blocks accounts that frequently post filtered content with configurable thresholds.</p>
                 </div>
                 <div class="feature-card premium">
                     <div class="feature-icon">🎥</div>
                     <h3 class="feature-title" data-en="Video Analysis" data-tr="Video Analizi">Video Analysis <span class="coming-soon-badge" data-en="Coming Soon" data-tr="Yakında">Coming Soon</span></h3>
-                    <p class="feature-description" data-en="AI-powered speech-to-text analysis of videos. Detect keywords in spoken content. Currently in development." data-tr="Yapay zeka destekli videoların konuşma-metin analizi. Konuşulan içerikteki anahtar kelimeleri tespit edin. Şu anda geliştirilme aşamasında.">AI-powered speech-to-text analysis of videos. Detect keywords in spoken content. Currently in development.</p>
+                    <p class="feature-description" data-en="GPT-4 powered speech-to-text analysis of video content. Detects keywords in spoken audio with advanced AI understanding. Premium tier feature in development." data-tr="Video içeriğinin GPT-4 destekli konuşma-metin analizi. Gelişmiş yapay zeka anlayışı ile konuşulan seste anahtar kelimeleri tespit eder. Geliştirme aşamasındaki Premium seviye özelliği.">GPT-4 powered speech-to-text analysis of video content. Detects keywords in spoken audio with advanced AI understanding. Premium tier feature in development.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title" data-en="Quick Block Selection" data-tr="Hızlı Blok Seçimi">Quick Block Selection</h3>
+                    <p class="feature-description" data-en="Select any text on X/Twitter and instantly add it to your filter list with a floating quick-block button. Perfect for discovering new keywords to filter." data-tr="X/Twitter'da herhangi bir metni seçin ve yüzen hızlı blok butonu ile anında filtre listenize ekleyin. Filtrelenecek yeni anahtar kelimeler keşfetmek için mükemmel.">Select any text on X/Twitter and instantly add it to your filter list with a floating quick-block button. Perfect for discovering new keywords to filter.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">⚙️</div>
-                    <h3 class="feature-title" data-en="Configurable Sensitivity" data-tr="Yapılandırılabilir Hassasiyet">Configurable Sensitivity</h3>
-                    <p class="feature-description" data-en="Adjust detection sensitivity to balance between catching content and avoiding false positives." data-tr="İçerik yakalama ve yanlış pozitiflerden kaçınma arasında dengeyi sağlamak için tespit hassasiyetini ayarlayın.">Adjust detection sensitivity to balance between catching content and avoiding false positives.</p>
+                    <h3 class="feature-title" data-en="Advanced Configuration" data-tr="Gelişmiş Yapılandırma">Advanced Configuration</h3>
+                    <p class="feature-description" data-en="Fine-tune confidence thresholds (50-90%), toggle filter types, hide vs blur options, ad blocking, and export/import settings for backup." data-tr="Güven eşiklerini ince ayarlayın (%50-90), filtre türlerini açıp kapatın, gizle vs bulanıklaştır seçenekleri, reklam engelleme ve yedekleme için ayarları dışa/içe aktarın.">Fine-tune confidence thresholds (50-90%), toggle filter types, hide vs blur options, ad blocking, and export/import settings for backup.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">📊</div>
-                    <h3 class="feature-title" data-en="Real-time Statistics" data-tr="Gerçek Zamanlı İstatistikler">Real-time Statistics</h3>
-                    <p class="feature-description" data-en="Track filtering performance, blocked content count, and system efficiency metrics." data-tr="Filtreleme performansını, engellenen içerik sayısını ve sistem verimlilik metriklerini takip edin.">Track filtering performance, blocked content count, and system efficiency metrics.</p>
+                    <h3 class="feature-title" data-en="Comprehensive Analytics" data-tr="Kapsamlı Analitik">Comprehensive Analytics</h3>
+                    <p class="feature-description" data-en="Real-time statistics showing filtered content count, OCR detections, processing speed, user analysis results, and performance metrics with daily/total counters." data-tr="Filtrelenen içerik sayısı, OCR tespitleri, işleme hızı, kullanıcı analiz sonuçları ve günlük/toplam sayaçlarla performans metriklerini gösteren gerçek zamanlı istatistikler.">Real-time statistics showing filtered content count, OCR detections, processing speed, user analysis results, and performance metrics with daily/total counters.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3 class="feature-title" data-en="Multi-Language Support" data-tr="Çok Dil Desteği">Multi-Language Support</h3>
+                    <p class="feature-description" data-en="Full Turkish and English interface with automatic language detection. Theme switching (light/dark/auto) and seamless language toggling without page reload." data-tr="Otomatik dil tespiti ile tam Türkçe ve İngilizce arayüz. Tema değiştirme (açık/koyu/otomatik) ve sayfa yenileme olmadan sorunsuz dil değiştirme.">Full Turkish and English interface with automatic language detection. Theme switching (light/dark/auto) and seamless language toggling without page reload.</p>
                 </div>
             </div>
         </div>
@@ -165,13 +181,15 @@
                         <p class="pricing-subtitle" data-en="Perfect for basic filtering needs" data-tr="Temel filtreleme ihtiyaçları için mükemmel">Perfect for basic filtering needs</p>
                     </div>
                     <ul class="pricing-features">
-                        <li data-en="✅ Text keyword filtering" data-tr="✅ Metin anahtar kelime filtreleme">✅ Text keyword filtering</li>
-                        <li data-en="✅ Community blocking" data-tr="✅ Topluluk engelleme">✅ Community blocking</li>
-                        <li data-en="✅ Local OCR processing" data-tr="✅ Yerel OCR işleme">✅ Local OCR processing</li>
-                        <li data-en="✅ Face detection" data-tr="✅ Yüz tanıma">✅ Face detection</li>
-                        <li data-en="✅ Real-time statistics" data-tr="✅ Gerçek zamanlı istatistikler">✅ Real-time statistics</li>
+                        <li data-en="✅ Lightning-fast text filtering" data-tr="✅ Yıldırım hızında metin filtreleme">✅ Lightning-fast text filtering</li>
+                        <li data-en="✅ Advanced community blocking" data-tr="✅ Gelişmiş topluluk engelleme">✅ Advanced community blocking</li>
+                        <li data-en="✅ Tesseract OCR (EN/TR)" data-tr="✅ Tesseract OCR (İNG/TR)">✅ Tesseract OCR (EN/TR)</li>
+                        <li data-en="✅ User behavior analysis" data-tr="✅ Kullanıcı davranış analizi">✅ User behavior analysis</li>
+                        <li data-en="✅ Quick-block selection tool" data-tr="✅ Hızlı blok seçim aracı">✅ Quick-block selection tool</li>
+                        <li data-en="✅ Multi-language interface" data-tr="✅ Çok dilli arayüz">✅ Multi-language interface</li>
+                        <li data-en="✅ Export/Import settings" data-tr="✅ Ayarları dışa/içe aktarma">✅ Export/Import settings</li>
                         <li data-en="❌ Video speech-to-text" data-tr="❌ Video konuşma-metin">❌ Video speech-to-text</li>
-                        <li data-en="❌ Advanced AI analysis" data-tr="❌ Gelişmiş yapay zeka analizi">❌ Advanced AI analysis</li>
+                        <li data-en="❌ GPT-4 powered analysis" data-tr="❌ GPT-4 destekli analiz">❌ GPT-4 powered analysis</li>
                     </ul>
                     <button class="btn btn-secondary pricing-btn" data-en="Get Started" data-tr="Başlayın">Get Started</button>
                 </div>
@@ -322,6 +340,95 @@
 
 
 
+    <!-- Bug Report Section -->
+    <section id="bug-report" class="bug-report">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title" data-en="🐛 Report an Issue" data-tr="🐛 Sorun Bildir">🐛 Report an Issue</h2>
+                <p class="section-subtitle" data-en="Found a bug or have a feature request? Let us know and help improve Block The Unwanted!" data-tr="Bir hata buldunuz veya özellik isteğiniz mi var? Bize bildirin ve Block The Unwanted'yi geliştirmemize yardımcı olun!">Found a bug or have a feature request? Let us know and help improve Block The Unwanted!</p>
+            </div>
+            <div class="bug-report-content">
+                <div class="report-info">
+                    <div class="info-card">
+                        <div class="info-icon">🐛</div>
+                        <h3 data-en="Bug Reports" data-tr="Hata Raporları">Bug Reports</h3>
+                        <p data-en="Extension not working as expected? Content not being filtered? Performance issues? We want to fix it!" data-tr="Uzantı beklendiği gibi çalışmıyor mu? İçerik filtrelenmiyor mu? Performans sorunları mı var? Düzeltmek istiyoruz!">Extension not working as expected? Content not being filtered? Performance issues? We want to fix it!</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">💡</div>
+                        <h3 data-en="Feature Requests" data-tr="Özellik İstekleri">Feature Requests</h3>
+                        <p data-en="Have an idea for a new feature? Want to suggest improvements? Share your thoughts with us!" data-tr="Yeni bir özellik için fikriniz mi var? İyileştirme önermek mi istiyorsunuz? Düşüncelerinizi bizimle paylaşın!">Have an idea for a new feature? Want to suggest improvements? Share your thoughts with us!</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">❓</div>
+                        <h3 data-en="General Support" data-tr="Genel Destek">General Support</h3>
+                        <p data-en="Need help with configuration? Having trouble with setup? We're here to help you get the most out of the extension!" data-tr="Yapılandırma konusunda yardıma mı ihtiyacınız var? Kurulumda sorun mu yaşıyorsunuz? Uzantıdan en iyi şekilde yararlanmanız için buradayız!">Need help with configuration? Having trouble with setup? We're here to help you get the most out of the extension!</p>
+                    </div>
+                </div>
+                
+                <div class="report-form-container">
+                    <form id="bug-report-form" class="report-form">
+                        <div class="form-group">
+                            <label for="report-type" data-en="Report Type" data-tr="Rapor Türü">Report Type</label>
+                            <select id="report-type" name="type" required>
+                                <option value="" data-en="Select type..." data-tr="Tür seçin...">Select type...</option>
+                                <option value="bug" data-en="🐛 Bug Report" data-tr="🐛 Hata Raporu">🐛 Bug Report</option>
+                                <option value="feature" data-en="💡 Feature Request" data-tr="💡 Özellik İsteği">💡 Feature Request</option>
+                                <option value="support" data-en="❓ General Support" data-tr="❓ Genel Destek">❓ General Support</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="report-email" data-en="Email Address" data-tr="E-posta Adresi">Email Address</label>
+                            <input type="email" id="report-email" name="email" required placeholder="your.email@example.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="report-subject" data-en="Subject" data-tr="Konu">Subject</label>
+                            <input type="text" id="report-subject" name="subject" required data-en-placeholder="Brief description of the issue or request" data-tr-placeholder="Sorun veya isteğin kısa açıklaması" placeholder="Brief description of the issue or request">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="report-description" data-en="Detailed Description" data-tr="Detaylı Açıklama">Detailed Description</label>
+                            <textarea id="report-description" name="description" required rows="6" data-en-placeholder="Please provide as much detail as possible:&#10;&#10;For bugs:&#10;- What were you doing when the issue occurred?&#10;- What did you expect to happen?&#10;- What actually happened?&#10;- Browser version and operating system&#10;&#10;For feature requests:&#10;- What would you like to see added?&#10;- How would this feature help you?&#10;- Any specific implementation ideas?" data-tr-placeholder="Lütfen mümkün olduğunca detay verin:&#10;&#10;Hatalar için:&#10;- Sorun oluştuğunda ne yapıyordunuz?&#10;- Ne olmasını bekliyordunuz?&#10;- Gerçekte ne oldu?&#10;- Tarayıcı versiyonu ve işletim sistemi&#10;&#10;Özellik istekleri için:&#10;- Neyin eklenmesini istiyorsunuz?&#10;- Bu özellik size nasıl yardımcı olur?&#10;- Herhangi bir uygulama fikriniz var mı?" placeholder="Please provide as much detail as possible..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="report-browser" data-en="Browser & System Info" data-tr="Tarayıcı ve Sistem Bilgisi">Browser & System Info</label>
+                            <input type="text" id="report-browser" name="browser" data-en-placeholder="e.g., Chrome 120.0.6099.71 on Windows 11" data-tr-placeholder="örn., Windows 11 üzerinde Chrome 120.0.6099.71" placeholder="e.g., Chrome 120.0.6099.71 on Windows 11">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="report-priority" data-en="Priority Level" data-tr="Öncelik Seviyesi">Priority Level</label>
+                            <select id="report-priority" name="priority">
+                                <option value="low" data-en="Low - Minor issue or enhancement" data-tr="Düşük - Küçük sorun veya iyileştirme">Low - Minor issue or enhancement</option>
+                                <option value="medium" selected data-en="Medium - Affects functionality" data-tr="Orta - İşlevselliği etkiler">Medium - Affects functionality</option>
+                                <option value="high" data-en="High - Major issue or blocking problem" data-tr="Yüksek - Büyük sorun veya engelleyici problem">High - Major issue or blocking problem</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" id="submit-report">
+                                <span class="btn-icon">📧</span>
+                                <span data-en="Send Report" data-tr="Rapor Gönder">Send Report</span>
+                            </button>
+                            <button type="reset" class="btn btn-secondary">
+                                <span data-en="Clear Form" data-tr="Formu Temizle">Clear Form</span>
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div id="form-status" class="form-status" style="display: none;">
+                        <div class="status-success">
+                            <span class="status-icon">✅</span>
+                            <span class="status-message" data-en="Thank you! Your report has been sent successfully. We'll get back to you soon!" data-tr="Teşekkürler! Raporunuz başarıyla gönderildi. Size yakında geri döneceğiz!">Thank you! Your report has been sent successfully. We'll get back to you soon!</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -351,6 +458,14 @@
         </div>
     </footer>
 
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init('8mKkSTCFk57ZOgGUc');
+        })();
+    </script>
+    
     <script src="script.js"></script>
     
     <!-- Buy Me a Coffee Widget -->

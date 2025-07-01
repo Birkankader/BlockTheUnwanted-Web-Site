@@ -414,6 +414,20 @@ function applyTranslations(lang) {
             element.textContent = translation;
         }
     });
+
+    // Update placeholders for form elements
+    const placeholderElements = document.querySelectorAll('[data-en-placeholder][data-tr-placeholder]');
+    placeholderElements.forEach(element => {
+        const placeholder = element.getAttribute(`data-${lang}-placeholder`);
+        if (placeholder) {
+            element.placeholder = placeholder;
+        }
+    });
+
+    // Update bug report form specifically if it exists
+    if (typeof window.updateBugReportPlaceholders === 'function') {
+        window.updateBugReportPlaceholders();
+    }
     
     // Update page title
     const titles = {
@@ -498,6 +512,234 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
         });
+    }
+
+    // Bug Report Form Functionality
+    const bugReportForm = document.getElementById('bug-report-form');
+    const formStatus = document.getElementById('form-status');
+    
+    if (bugReportForm) {
+        // Update form placeholders based on language
+        function updateFormPlaceholders() {
+            const placeholderElements = bugReportForm.querySelectorAll('[data-en-placeholder][data-tr-placeholder]');
+            placeholderElements.forEach(element => {
+                const placeholder = element.getAttribute(`data-${currentLang}-placeholder`);
+                if (placeholder) {
+                    element.placeholder = placeholder;
+                }
+            });
+
+            // Also update select option texts
+            const selectElements = bugReportForm.querySelectorAll('select option[data-en][data-tr]');
+            selectElements.forEach(option => {
+                const translation = option.getAttribute(`data-${currentLang}`);
+                if (translation) {
+                    option.textContent = translation;
+                }
+            });
+        }
+
+        // Update placeholders on language change
+        updateFormPlaceholders();
+
+        // Store reference to update function for global access
+        window.updateBugReportPlaceholders = updateFormPlaceholders;
+
+        // Auto-fill browser info
+        const browserField = document.getElementById('report-browser');
+        if (browserField && !browserField.value) {
+            const userAgent = navigator.userAgent;
+            let browserInfo = '';
+            
+            if (userAgent.includes('Chrome')) {
+                const chromeVersion = userAgent.match(/Chrome\/([0-9.]+)/);
+                browserInfo = `Chrome ${chromeVersion ? chromeVersion[1] : 'Unknown Version'}`;
+            } else if (userAgent.includes('Firefox')) {
+                const firefoxVersion = userAgent.match(/Firefox\/([0-9.]+)/);
+                browserInfo = `Firefox ${firefoxVersion ? firefoxVersion[1] : 'Unknown Version'}`;
+            } else if (userAgent.includes('Safari')) {
+                const safariVersion = userAgent.match(/Version\/([0-9.]+)/);
+                browserInfo = `Safari ${safariVersion ? safariVersion[1] : 'Unknown Version'}`;
+            } else {
+                browserInfo = 'Unknown Browser';
+            }
+            
+            const platform = navigator.platform || 'Unknown Platform';
+            browserField.value = `${browserInfo} on ${platform}`;
+        }
+
+        // Form submission
+        bugReportForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(bugReportForm);
+            const reportData = {
+                type: formData.get('type'),
+                email: formData.get('email'),
+                subject: formData.get('subject'),
+                description: formData.get('description'),
+                browser: formData.get('browser'),
+                priority: formData.get('priority'),
+                timestamp: new Date().toISOString(),
+                language: currentLang,
+                userAgent: navigator.userAgent,
+                url: window.location.href
+            };
+
+            // Disable submit button
+            const submitBtn = document.getElementById('submit-report');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `
+                <span class="btn-icon">⏳</span>
+                <span>${currentLang === 'tr' ? 'Gönderiliyor...' : 'Sending...'}</span>
+            `;
+
+            try {
+                // Send email using mailto
+                await sendBugReport(reportData);
+                
+                // Show success message
+                showFormStatus('success', currentLang === 'tr' 
+                    ? 'Teşekkürler! Raporunuz başarıyla gönderildi. Size yakında geri döneceğiz!' 
+                    : 'Thank you! Your report has been sent successfully. We\'ll get back to you soon!');
+                
+                // Reset form
+                bugReportForm.reset();
+                
+                // Re-fill browser info after reset
+                setTimeout(() => {
+                    const browserField = document.getElementById('report-browser');
+                    if (browserField) {
+                        const userAgent = navigator.userAgent;
+                        let browserInfo = '';
+                        
+                        if (userAgent.includes('Chrome')) {
+                            const chromeVersion = userAgent.match(/Chrome\/([0-9.]+)/);
+                            browserInfo = `Chrome ${chromeVersion ? chromeVersion[1] : 'Unknown Version'}`;
+                        } else if (userAgent.includes('Firefox')) {
+                            const firefoxVersion = userAgent.match(/Firefox\/([0-9.]+)/);
+                            browserInfo = `Firefox ${firefoxVersion ? firefoxVersion[1] : 'Unknown Version'}`;
+                        } else if (userAgent.includes('Safari')) {
+                            const safariVersion = userAgent.match(/Version\/([0-9.]+)/);
+                            browserInfo = `Safari ${safariVersion ? safariVersion[1] : 'Unknown Version'}`;
+                        } else {
+                            browserInfo = 'Unknown Browser';
+                        }
+                        
+                        const platform = navigator.platform || 'Unknown Platform';
+                        browserField.value = `${browserInfo} on ${platform}`;
+                    }
+                    updateFormPlaceholders();
+                }, 100);
+                
+                // Track bug report submission
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'bug_report_submit', {
+                        event_category: 'Support',
+                        event_label: reportData.type,
+                        value: reportData.priority === 'high' ? 3 : reportData.priority === 'medium' ? 2 : 1
+                    });
+                }
+                
+            } catch (error) {
+                console.error('Error sending bug report:', error);
+                
+                // Show different messages based on error type
+                let errorMessage;
+                if (error.message && error.message.includes('EmailJS failed')) {
+                    errorMessage = currentLang === 'tr' 
+                        ? 'E-posta servisi kullanılamıyor, mail uygulamanız açıldı. Lütfen e-postayı gönderin.' 
+                        : 'Email service unavailable, your mail app was opened. Please send the email.';
+                } else {
+                    errorMessage = currentLang === 'tr' 
+                        ? 'Üzgünüz, rapor gönderilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.' 
+                        : 'Sorry, there was an error sending your report. Please try again later.';
+                }
+                
+                showFormStatus('error', errorMessage);
+            } finally {
+                // Re-enable submit button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }
+        });
+
+        // Show form status
+        function showFormStatus(type, message) {
+            formStatus.style.display = 'block';
+            formStatus.innerHTML = `
+                <div class="status-${type}">
+                    <span class="status-icon">${type === 'success' ? '✅' : '❌'}</span>
+                    <span class="status-message">${message}</span>
+                </div>
+            `;
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                formStatus.style.display = 'none';
+            }, 5000);
+        }
+
+        // Send bug report function
+        async function sendBugReport(reportData) {
+            try {
+                // Use EmailJS to send the report
+                const templateParams = {
+                    to_email: 'birkankader@gmail.com',
+                    from_email: reportData.email,
+                    subject: `[Block The Unwanted] ${reportData.type.toUpperCase()}: ${reportData.subject}`,
+                    report_type: reportData.type,
+                    priority: reportData.priority,
+                    user_email: reportData.email,
+                    browser_info: reportData.browser,
+                    language: reportData.language,
+                    timestamp: reportData.timestamp,
+                    description: reportData.description,
+                    website_url: reportData.url,
+                    user_agent: reportData.userAgent,
+                    // Additional fields for the template
+                    reply_to: reportData.email
+                };
+
+                const result = await emailjs.send(
+                    'service_rvvtd2v',
+                    'template_wo2ohc9',
+                    templateParams,
+                    '8mKkSTCFk57ZOgGUc'
+                );
+
+                console.log('EmailJS Success:', result);
+                return result;
+
+            } catch (error) {
+                console.error('EmailJS Error:', error);
+                
+                // Fallback to mailto if EmailJS fails
+                const subject = encodeURIComponent(`[Block The Unwanted] ${reportData.type.toUpperCase()}: ${reportData.subject}`);
+                const body = encodeURIComponent(`
+Report Type: ${reportData.type}
+Priority: ${reportData.priority}
+Email: ${reportData.email}
+Browser: ${reportData.browser}
+Language: ${reportData.language}
+Timestamp: ${reportData.timestamp}
+
+Description:
+${reportData.description}
+
+---
+This report was sent from: ${reportData.url}
+User Agent: ${reportData.userAgent}
+                `);
+                
+                const mailtoLink = `mailto:birkankader@gmail.com?subject=${subject}&body=${body}`;
+                window.location.href = mailtoLink;
+                
+                // Re-throw error to be handled by the caller
+                throw new Error('EmailJS failed, opened mailto as fallback');
+            }
+        }
     }
 
     // Pricing buttons
