@@ -407,7 +407,17 @@ function updateBMCWidgetMessage(lang) {
 
 // Get environment variables (compatible with both Vite and vanilla JS)
 function getEmailConfig() {
-    // These placeholder values will be replaced by build process with actual environment variables
+    // Try to get from runtime environment first (Netlify)
+    if (typeof window !== 'undefined' && window.netlifyEnv) {
+        return {
+            serviceId: window.netlifyEnv.VITE_EMAILJS_SERVICE_ID,
+            templateId: window.netlifyEnv.VITE_EMAILJS_TEMPLATE_ID,
+            publicKey: window.netlifyEnv.VITE_EMAILJS_PUBLIC_KEY,
+            recipientEmail: window.netlifyEnv.VITE_RECIPIENT_EMAIL
+        };
+    }
+    
+    // Fallback to build-time replaced values
     return {
         serviceId: '__VITE_EMAILJS_SERVICE_ID__',
         templateId: '__VITE_EMAILJS_TEMPLATE_ID__',

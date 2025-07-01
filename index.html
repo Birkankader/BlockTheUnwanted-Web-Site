@@ -461,6 +461,16 @@
     <!-- EmailJS -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     
+    <!-- Runtime Environment Variables (will be injected by build process) -->
+    <script>
+        window.netlifyEnv = {
+            VITE_EMAILJS_SERVICE_ID: '__VITE_EMAILJS_SERVICE_ID__',
+            VITE_EMAILJS_TEMPLATE_ID: '__VITE_EMAILJS_TEMPLATE_ID__',
+            VITE_EMAILJS_PUBLIC_KEY: '__VITE_EMAILJS_PUBLIC_KEY__',
+            VITE_RECIPIENT_EMAIL: '__VITE_RECIPIENT_EMAIL__'
+        };
+    </script>
+    
     <script src="script.js"></script>
     
     <!-- Buy Me a Coffee Widget -->

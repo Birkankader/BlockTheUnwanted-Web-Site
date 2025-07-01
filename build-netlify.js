@@ -39,9 +39,11 @@ console.log('📧 EmailJS Config:', {
     recipientEmail: envVars.VITE_RECIPIENT_EMAIL
 });
 
-// Read script.js file
+// Read script.js and index.html files
 const scriptPath = path.join(__dirname, 'script.js');
+const htmlPath = path.join(__dirname, 'index.html');
 let scriptContent = fs.readFileSync(scriptPath, 'utf8');
+let htmlContent = fs.readFileSync(htmlPath, 'utf8');
 
 // Replace environment variable placeholders
 scriptContent = scriptContent.replace(
@@ -64,8 +66,42 @@ scriptContent = scriptContent.replace(
     envVars.VITE_RECIPIENT_EMAIL || '__VITE_RECIPIENT_EMAIL__'
 );
 
-// Write the updated script.js
-fs.writeFileSync(scriptPath, scriptContent);
+// Replace environment variable placeholders in HTML
+htmlContent = htmlContent.replace(
+    /__VITE_EMAILJS_SERVICE_ID__/g,
+    envVars.VITE_EMAILJS_SERVICE_ID || '__VITE_EMAILJS_SERVICE_ID__'
+);
 
-console.log('✅ Environment variables injected into script.js');
+htmlContent = htmlContent.replace(
+    /__VITE_EMAILJS_TEMPLATE_ID__/g,
+    envVars.VITE_EMAILJS_TEMPLATE_ID || '__VITE_EMAILJS_TEMPLATE_ID__'
+);
+
+htmlContent = htmlContent.replace(
+    /__VITE_EMAILJS_PUBLIC_KEY__/g,
+    envVars.VITE_EMAILJS_PUBLIC_KEY || '__VITE_EMAILJS_PUBLIC_KEY__'
+);
+
+htmlContent = htmlContent.replace(
+    /__VITE_RECIPIENT_EMAIL__/g,
+    envVars.VITE_RECIPIENT_EMAIL || '__VITE_RECIPIENT_EMAIL__'
+);
+
+// Write the updated files
+fs.writeFileSync(scriptPath, scriptContent);
+fs.writeFileSync(htmlPath, htmlContent);
+
+console.log('✅ Environment variables injected into script.js and index.html');
+
+// Debug: Check if replacements worked
+const updatedScriptContent = fs.readFileSync(scriptPath, 'utf8');
+const updatedHtmlContent = fs.readFileSync(htmlPath, 'utf8');
+const hasPlaceholders = updatedScriptContent.includes('__VITE_EMAILJS_SERVICE_ID__') || updatedHtmlContent.includes('__VITE_EMAILJS_SERVICE_ID__');
+
+if (hasPlaceholders) {
+    console.log('⚠️  Placeholders still present - environment variables were not set');
+} else {
+    console.log('✅ Placeholders successfully replaced with actual values');
+}
+
 console.log('🎉 Netlify build completed!'); 
