@@ -924,7 +924,7 @@ User Agent: ${reportData.userAgent}
         const result = await emailjs.sendForm(
           config.serviceId,
           config.templateId,
-          form,
+          templateParams,
           config.publicKey
         );
 
