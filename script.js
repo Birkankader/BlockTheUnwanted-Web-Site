@@ -416,21 +416,75 @@ function getEmailConfig() {
     };
 }
 
+// Check if EmailJS configuration is complete
+function isEmailConfigComplete() {
+    const config = getEmailConfig();
+    return config.serviceId && 
+           config.templateId && 
+           config.publicKey && 
+           config.serviceId !== '__VITE_EMAILJS_SERVICE_ID__' &&
+           config.templateId !== '__VITE_EMAILJS_TEMPLATE_ID__' &&
+           config.publicKey !== '__VITE_EMAILJS_PUBLIC_KEY__';
+}
+
 // Initialize EmailJS with environment variables
 function initializeEmailJS() {
     const config = getEmailConfig();
     
-    if (typeof emailjs !== 'undefined' && config.publicKey && config.publicKey !== 'your_public_key') {
+    if (typeof emailjs !== 'undefined' && isEmailConfigComplete()) {
         try {
             emailjs.init(config.publicKey);
             console.log('[Website] EmailJS initialized successfully with env vars');
+            return true;
         } catch (error) {
             console.error('[Website] EmailJS initialization failed:', error);
+            return false;
         }
     } else {
         console.warn('[Website] EmailJS not available or environment variables not set. Please check your .env file or Netlify environment variables.');
         console.warn('[Website] Expected variables: VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, VITE_EMAILJS_PUBLIC_KEY');
+        return false;
     }
+}
+
+// Get translation helper function
+function getTranslation(key, fallback) {
+    const translations = {
+        'bugReport.sending': {
+            en: 'Sending...',
+            tr: 'Gönderiliyor...'
+        },
+        'bugReport.successMessage': {
+            en: 'Thank you! Your report has been sent successfully. We\'ll get back to you soon!',
+            tr: 'Teşekkürler! Raporunuz başarıyla gönderildi. Size yakında geri döneceğiz!'
+        },
+        'bugReport.errorMessage': {
+            en: 'Sorry, there was an error sending your report. Please try again later.',
+            tr: 'Üzgünüz, rapor gönderilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.'
+        },
+        'bugReport.configError': {
+            en: 'EmailJS configuration missing. Please check environment variables.',
+            tr: 'EmailJS konfigürasyonu eksik. Lütfen environment variables\'ları kontrol edin.'
+        },
+        'bugReport.validationError': {
+            en: 'Please fill in all required fields.',
+            tr: 'Lütfen tüm gerekli alanları doldurun.'
+        },
+        'bugReport.invalidConfigError': {
+            en: 'EmailJS configuration invalid. Please check settings.',
+            tr: 'EmailJS konfigürasyonu geçersiz. Lütfen ayarları kontrol edin.'
+        },
+        'bugReport.networkError': {
+            en: 'Network error. Please check your internet connection.',
+            tr: 'Ağ bağlantısı hatası. İnternet bağlantınızı kontrol edin.'
+        }
+    };
+    
+    const translation = translations[key];
+    if (translation && translation[currentLang]) {
+        return translation[currentLang];
+    }
+    return fallback || key;
 }
 
 // Apply translations to elements
@@ -577,76 +631,75 @@ document.addEventListener('DOMContentLoaded', function() {
         window.updateBugReportPlaceholders = updateFormPlaceholders;
 
         // Auto-fill browser info
-        const browserField = document.getElementById('report-browser');
-        if (browserField && !browserField.value) {
-            const userAgent = navigator.userAgent;
-            let browserInfo = '';
-            
-            if (userAgent.includes('Chrome')) {
-                const chromeVersion = userAgent.match(/Chrome\/([0-9.]+)/);
-                browserInfo = `Chrome ${chromeVersion ? chromeVersion[1] : 'Unknown Version'}`;
-            } else if (userAgent.includes('Firefox')) {
-                const firefoxVersion = userAgent.match(/Firefox\/([0-9.]+)/);
-                browserInfo = `Firefox ${firefoxVersion ? firefoxVersion[1] : 'Unknown Version'}`;
-            } else if (userAgent.includes('Safari')) {
-                const safariVersion = userAgent.match(/Version\/([0-9.]+)/);
-                browserInfo = `Safari ${safariVersion ? safariVersion[1] : 'Unknown Version'}`;
-            } else {
-                browserInfo = 'Unknown Browser';
+        // Auto-fill browser information function
+        function populateBrowserInfo() {
+            const browserField = document.getElementById('report-browser');
+            if (browserField) {
+                const userAgent = navigator.userAgent;
+                let browserInfo = '';
+                
+                if (userAgent.includes('Chrome')) {
+                    const chromeVersion = userAgent.match(/Chrome\/([0-9.]+)/);
+                    browserInfo = `Chrome ${chromeVersion ? chromeVersion[1] : 'Unknown Version'}`;
+                } else if (userAgent.includes('Firefox')) {
+                    const firefoxVersion = userAgent.match(/Firefox\/([0-9.]+)/);
+                    browserInfo = `Firefox ${firefoxVersion ? firefoxVersion[1] : 'Unknown Version'}`;
+                } else if (userAgent.includes('Safari')) {
+                    const safariVersion = userAgent.match(/Version\/([0-9.]+)/);
+                    browserInfo = `Safari ${safariVersion ? safariVersion[1] : 'Unknown Version'}`;
+                } else {
+                    browserInfo = 'Unknown Browser';
+                }
+                
+                const platform = navigator.platform || 'Unknown Platform';
+                browserField.value = `${browserInfo} on ${platform}`;
             }
-            
-            const platform = navigator.platform || 'Unknown Platform';
-            browserField.value = `${browserInfo} on ${platform}`;
         }
+        
+        // Initial browser info population
+        populateBrowserInfo();
 
-        // Form submission
+        // Form submission (using ContactSection.tsx approach)
         bugReportForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const formData = new FormData(bugReportForm);
-            const reportData = {
-                type: formData.get('type'),
-                email: formData.get('email'),
-                subject: formData.get('subject'),
-                description: formData.get('description'),
-                browser: formData.get('browser'),
-                priority: formData.get('priority'),
-                timestamp: new Date().toISOString(),
-                language: currentLang,
-                userAgent: navigator.userAgent,
-                url: window.location.href
-            };
+            const form = this;
+            const submitBtn = document.getElementById('submit-report');
+            const originalText = submitBtn.innerHTML;
 
-            // Debug: Log form data to console
-            console.log('Form Data Debug:', {
-                type: reportData.type,
-                email: reportData.email,
-                subject: reportData.subject,
-                description: reportData.description,
-                browser: reportData.browser,
-                priority: reportData.priority
+            // Validate required fields (like in ContactSection.tsx)
+            const requiredFields = form.querySelectorAll('[required]');
+            let isValid = true;
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.classList.add('border-red-500');
+                } else {
+                    field.classList.remove('border-red-500');
+                }
             });
 
-            // Validate required fields
-            if (!reportData.type || !reportData.email || !reportData.subject || !reportData.description) {
+            if (!isValid) {
                 showFormStatus('error', currentLang === 'tr' 
                     ? 'Lütfen tüm gerekli alanları doldurun.' 
                     : 'Please fill in all required fields.');
                 return;
             }
 
-            // Disable submit button
-            const submitBtn = document.getElementById('submit-report');
-            const originalText = submitBtn.innerHTML;
+            // Show loading state (like in ContactSection.tsx)
             submitBtn.disabled = true;
             submitBtn.innerHTML = `
-                <span class="btn-icon">⏳</span>
-                <span>${currentLang === 'tr' ? 'Gönderiliyor...' : 'Sending...'}</span>
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                ${currentLang === 'tr' ? 'Gönderiliyor...' : 'Sending...'}
             `;
 
             try {
-                // Send email using mailto
-                await sendBugReport(reportData);
+                // Use sendForm method like in ContactSection.tsx
+                await sendBugReport(form);
                 
                 // Show success message
                 showFormStatus('success', currentLang === 'tr' 
@@ -656,47 +709,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Reset form
                 bugReportForm.reset();
                 
-                // Re-fill browser info after reset
+                // Re-populate browser info after reset
                 setTimeout(() => {
-                    const browserField = document.getElementById('report-browser');
-                    if (browserField) {
-                        const userAgent = navigator.userAgent;
-                        let browserInfo = '';
-                        
-                        if (userAgent.includes('Chrome')) {
-                            const chromeVersion = userAgent.match(/Chrome\/([0-9.]+)/);
-                            browserInfo = `Chrome ${chromeVersion ? chromeVersion[1] : 'Unknown Version'}`;
-                        } else if (userAgent.includes('Firefox')) {
-                            const firefoxVersion = userAgent.match(/Firefox\/([0-9.]+)/);
-                            browserInfo = `Firefox ${firefoxVersion ? firefoxVersion[1] : 'Unknown Version'}`;
-                        } else if (userAgent.includes('Safari')) {
-                            const safariVersion = userAgent.match(/Version\/([0-9.]+)/);
-                            browserInfo = `Safari ${safariVersion ? safariVersion[1] : 'Unknown Version'}`;
-                        } else {
-                            browserInfo = 'Unknown Browser';
-                        }
-                        
-                        const platform = navigator.platform || 'Unknown Platform';
-                        browserField.value = `${browserInfo} on ${platform}`;
-                    }
+                    populateBrowserInfo();
                     updateFormPlaceholders();
                 }, 100);
                 
                 // Track bug report submission
                 if (typeof gtag !== 'undefined') {
+                    const formData = new FormData(form);
                     gtag('event', 'bug_report_submit', {
                         event_category: 'Support',
-                        event_label: reportData.type,
-                        value: reportData.priority === 'high' ? 3 : reportData.priority === 'medium' ? 2 : 1
+                        event_label: formData.get('type') || 'bug',
+                        value: formData.get('priority') === 'high' ? 3 : formData.get('priority') === 'medium' ? 2 : 1
                     });
                 }
                 
             } catch (error) {
                 console.error('Error sending bug report:', error);
                 
-                // Show different messages based on error type
+                // Show different messages based on error type (like in ContactSection.tsx)
                 let errorMessage;
-                if (error.message && error.message.includes('EmailJS environment variables not set')) {
+                if (error.message && error.message.includes('konfigürasyonu eksik')) {
                     errorMessage = currentLang === 'tr' 
                         ? 'E-posta yapılandırması eksik. Lütfen site yöneticisiyle iletişime geçin.' 
                         : 'Email configuration missing. Please contact the site administrator.';
@@ -704,6 +738,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     errorMessage = currentLang === 'tr' 
                         ? 'E-posta servisi kullanılamıyor, mail uygulamanız açıldı. Lütfen e-postayı gönderin.' 
                         : 'Email service unavailable, your mail app was opened. Please send the email.';
+                } else if (error.text && error.text.includes('Invalid')) {
+                    errorMessage = currentLang === 'tr' 
+                        ? 'EmailJS konfigürasyonu geçersiz. Lütfen ayarları kontrol edin.' 
+                        : 'EmailJS configuration invalid. Please check settings.';
+                } else if (error.text && error.text.includes('network')) {
+                    errorMessage = currentLang === 'tr' 
+                        ? 'Ağ bağlantısı hatası. İnternet bağlantınızı kontrol edin.' 
+                        : 'Network error. Please check your internet connection.';
                 } else {
                     errorMessage = currentLang === 'tr' 
                         ? 'Üzgünüz, rapor gönderilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.' 
@@ -712,74 +754,91 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 showFormStatus('error', errorMessage);
             } finally {
-                // Re-enable submit button
+                // Re-enable submit button (like in ContactSection.tsx)
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalText;
             }
         });
 
-        // Show form status
+        // Show form status (like in ContactSection.tsx)
         function showFormStatus(type, message) {
-            formStatus.style.display = 'block';
-            formStatus.innerHTML = `
-                <div class="status-${type}">
-                    <span class="status-icon">${type === 'success' ? '✅' : '❌'}</span>
-                    <span class="status-message">${message}</span>
-                </div>
-            `;
+            // Remove existing status message
+            const existingMessage = document.querySelector('.status-message');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
             
-            // Auto-hide after 5 seconds
+            // Create new status message
+            const statusDiv = document.createElement('div');
+            statusDiv.className = `status-message p-4 mb-6 rounded-lg transition-all duration-300 ${
+                type === 'success' 
+                    ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800' 
+                    : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800'
+            }`;
+            statusDiv.textContent = message;
+            
+            // Insert before form
+            const form = document.getElementById('bug-report-form');
+            form.parentNode.insertBefore(statusDiv, form);
+            
+            // Smooth scroll to message
+            statusDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // Auto-remove after 5 seconds (like in ContactSection.tsx)
             setTimeout(() => {
-                formStatus.style.display = 'none';
+                if (statusDiv.parentNode) {
+                    statusDiv.style.opacity = '0';
+                    setTimeout(() => {
+                        if (statusDiv.parentNode) {
+                            statusDiv.remove();
+                        }
+                    }, 300);
+                }
             }, 5000);
         }
 
-        // Send bug report function
-        async function sendBugReport(reportData) {
+        // Send bug report function using ContactSection.tsx approach
+        async function sendBugReport(form) {
+            // Check if EmailJS is properly configured (like in ContactSection.tsx)
+            if (!isEmailConfigComplete()) {
+                throw new Error('EmailJS konfigürasyonu eksik. Lütfen environment variables\'ları kontrol edin.');
+            }
+
             try {
-                // EmailJS Template Variables (use these in your template):
-                // {{to_name}} - Recipient name
-                // {{from_name}} - Sender email
-                // {{reply_to}} - Reply-to email
-                // {{type}} - Report type (bug/feature/support)
-                // {{email}} - User email
-                // {{subject}} - Report subject
-                // {{description}} - Detailed description
-                // {{browser}} - Browser info
-                // {{priority}} - Priority level
-                // {{timestamp}} - When sent
-                // {{language}} - Interface language
-                // {{url}} - Website URL
-                // {{user_agent}} - User agent string
-                // {{message}} - Formatted complete message
+                const config = getEmailConfig();
                 
-                // Use EmailJS to send the report
-                const templateParams = {
-                    // Standard EmailJS fields
-                    to_name: 'Birkan Kader',
-                    from_name: reportData.email,
-                    reply_to: reportData.email,
-                    
-                    // Custom fields for our template
-                    type: reportData.type,
-                    email: reportData.email,
-                    subject: reportData.subject,
-                    description: reportData.description,
-                    browser: reportData.browser,
-                    priority: reportData.priority,
-                    timestamp: reportData.timestamp,
-                    language: reportData.language,
-                    url: reportData.url,
-                    user_agent: reportData.userAgent,
-                    
-                    // Formatted message
-                    message: `
+                // Use sendForm method like in ContactSection.tsx
+                const result = await emailjs.sendForm(
+                    config.serviceId,
+                    config.templateId,
+                    form,
+                    config.publicKey
+                );
+
+                console.log('✅ EmailJS Success:', result);
+                return result;
+
+            } catch (error) {
+                console.error('❌ EmailJS Error:', error);
+                
+                // Fallback to mailto if EmailJS fails
+                const formData = new FormData(form);
+                const reportData = {
+                    type: formData.get('type') || 'bug',
+                    email: formData.get('email') || '',
+                    subject: formData.get('subject') || '',
+                    description: formData.get('description') || '',
+                    browser: formData.get('browser') || '',
+                    priority: formData.get('priority') || 'medium'
+                };
+                
+                const subject = encodeURIComponent(`[Block The Unwanted] ${reportData.type.toUpperCase()}: ${reportData.subject}`);
+                const body = encodeURIComponent(`
 Report Type: ${reportData.type}
 Priority: ${reportData.priority}
 Email: ${reportData.email}
 Browser: ${reportData.browser}
-Language: ${reportData.language}
-Timestamp: ${reportData.timestamp}
+Timestamp: ${new Date().toISOString()}
 
 Subject: ${reportData.subject}
 
@@ -787,53 +846,8 @@ Description:
 ${reportData.description}
 
 ---
-Website URL: ${reportData.url}
-User Agent: ${reportData.userAgent}
-                    `.trim()
-                };
-
-                // Debug: Log template params
-                console.log('EmailJS Template Params:', templateParams);
-
-                // Get environment variables
-                const config = getEmailConfig();
-                
-                // Check if environment variables are available
-                if (!config.serviceId || config.serviceId === 'your_service_id') {
-                    throw new Error('EmailJS environment variables not set. Please check your .env file or Netlify environment variables.');
-                }
-
-                const result = await emailjs.send(
-                    config.serviceId,
-                    config.templateId,
-                    templateParams,
-                    config.publicKey
-                );
-
-                console.log('EmailJS Success:', result);
-                console.log('EmailJS Response Status:', result.status);
-                console.log('EmailJS Response Text:', result.text);
-                return result;
-
-            } catch (error) {
-                console.error('EmailJS Error:', error);
-                
-                // Fallback to mailto if EmailJS fails
-                const subject = encodeURIComponent(`[Block The Unwanted] ${reportData.type.toUpperCase()}: ${reportData.subject}`);
-                const body = encodeURIComponent(`
-Report Type: ${reportData.type}
-Priority: ${reportData.priority}
-Email: ${reportData.email}
-Browser: ${reportData.browser}
-Language: ${reportData.language}
-Timestamp: ${reportData.timestamp}
-
-Description:
-${reportData.description}
-
----
-This report was sent from: ${reportData.url}
-User Agent: ${reportData.userAgent}
+This report was sent from: ${window.location.href}
+User Agent: ${navigator.userAgent}
                 `);
                 
                 const mailtoLink = `mailto:birkankader@gmail.com?subject=${subject}&body=${body}`;
