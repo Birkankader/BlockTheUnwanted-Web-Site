@@ -871,6 +871,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     async function sendBugReport(reportData) {
+        
+
+        if (!isEmailConfigComplete()) {
+            throw new Error(
+                "EmailJS konfigürasyonu eksik. Lütfen environment variables'ları kontrol edin."
+            );
+        }
+
             try {
                 // EmailJS Template Variables (use these in your template):
                 // {{to_name}} - Recipient name
@@ -887,6 +895,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 // {{url}} - Website URL
                 // {{user_agent}} - User agent string
                 // {{message}} - Formatted complete message
+
+                const config = getEmailConfig();
                 
                 // Use EmailJS to send the report
                 const templateParams = {
@@ -930,16 +940,11 @@ User Agent: ${reportData.userAgent}
                 // Debug: Log template params
                 console.log('EmailJS Template Params:', templateParams);
 
-                // Check if config is available
-                if (!window.EMAIL_CONFIG || window.EMAIL_CONFIG.serviceId === 'YOUR_SERVICE_ID') {
-                    throw new Error('EmailJS configuration not set. Please update config.js with your credentials.');
-                }
-
                 const result = await emailjs.send(
-                    window.EMAIL_CONFIG.serviceId,
-                    window.EMAIL_CONFIG.templateId,
+                    config.serviceId,
+                    config.templateId,
                     templateParams,
-                    window.EMAIL_CONFIG.publicKey
+                    config.publicKey
                 );
 
                 console.log('EmailJS Success:', result);
