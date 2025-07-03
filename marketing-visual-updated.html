@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Block The Unwanted - Updated Marketing Visual</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #065f46 75%, #064e3b 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .marketing-container {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .content-section {
+            color: white;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            position: relative;
+        }
+
+        .logo::before {
+            content: '🛡️';
+            font-size: 28px;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .logo-subtitle {
+            font-size: 14px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .main-title {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .main-title .highlight {
+            background: linear-gradient(135deg, #10b981, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+        }
+
+        .feature-check {
+            width: 24px;
+            height: 24px;
+            background: #10b981;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .feature-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .cta-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .install-button {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .install-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.4);
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10b981;
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: #10b981;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .mockup-section {
+            position: relative;
+        }
+
+        .phone-mockup {
+            width: 350px;
+            height: 600px;
+            background: #000;
+            border-radius: 30px;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            background: #1a1a1a;
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+        }
+
+        .filter-card {
+            background: linear-gradient(135deg, #374151, #4b5563);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+            animation: slideIn 0.6s ease forwards;
+            opacity: 0;
+            transform: translateX(20px);
+        }
+
+        .filter-card:nth-child(1) {
+            border-left-color: #8b5cf6;
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            animation-delay: 0.2s;
+        }
+
+        .filter-card:nth-child(2) {
+            border-left-color: #f97316;
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            animation-delay: 0.4s;
+        }
+
+        .filter-card:nth-child(3) {
+            border-left-color: #ef4444;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            animation-delay: 0.6s;
+        }
+
+        .filter-card:nth-child(4) {
+            border-left-color: #3b82f6;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            animation-delay: 0.8s;
+        }
+
+        .filter-card:nth-child(5) {
+            border-left-color: #10b981;
+            background: linear-gradient(135deg, #10b981, #059669);
+            animation-delay: 1.0s;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .filter-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .filter-icon {
+            font-size: 20px;
+        }
+
+        .filter-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-name {
+            font-weight: 600;
+            color: white;
+            font-size: 14px;
+        }
+
+        .filter-description {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .filter-status {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .new-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 700;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .floating-icon {
+            position: absolute;
+            font-size: 24px;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-icon:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-icon:nth-child(2) {
+            top: 20%;
+            right: 15%;
+            animation-delay: 1s;
+        }
+
+        .floating-icon:nth-child(3) {
+            bottom: 30%;
+            left: 5%;
+            animation-delay: 2s;
+        }
+
+        .floating-icon:nth-child(4) {
+            bottom: 10%;
+            right: 10%;
+            animation-delay: 3s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @media (max-width: 768px) {
+            .marketing-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .main-title {
+                font-size: 36px;
+            }
+
+            .phone-mockup {
+                width: 300px;
+                height: 500px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-icon">🛡️</div>
+        <div class="floating-icon">🔍</div>
+        <div class="floating-icon">🤖</div>
+        <div class="floating-icon">⚡</div>
+    </div>
+
+    <div class="marketing-container">
+        <div class="content-section">
+            <div class="logo-section">
+                <div class="logo"></div>
+                <div class="logo-text">
+                    <div class="logo-title">Block The Unwanted</div>
+                    <div class="logo-subtitle">Advanced Protection</div>
+                </div>
+            </div>
+
+            <h1 class="main-title">
+                Your Twitter Feed,<br>
+                <span class="highlight">Perfectly Clean</span>
+            </h1>
+
+            <p class="subtitle">
+                Experience Twitter the way it should be - free from unwanted content, spam, and distractions. Advanced multi-layer filtering with AI-powered analysis.
+            </p>
+
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-check">✓</div>
+                    <div class="feature-text">Smart Text Analysis</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-check">✓</div>
+                    <div class="feature-text">Community Blocking</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-check">✓</div>
+                    <div class="feature-text">Image OCR Detection</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-check">✓</div>
+                    <div class="feature-text">Auto Spam Detection</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-check">✓</div>
+                    <div class="feature-text">Quick Block Selection</div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-check">✓</div>
+                    <div class="feature-text">100% Privacy Focused</div>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <button class="install-button">
+                    <span>⬇️</span>
+                    Install Free Extension
+                </button>
+                <div class="status-badge">
+                    <div class="status-indicator"></div>
+                    <span>🚀 Major Update Available</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mockup-section">
+            <div class="phone-mockup">
+                <div class="screen">
+                    <div class="filter-card">
+                        <div class="new-badge">NEW</div>
+                        <div class="filter-info">
+                            <div class="filter-icon">🤖</div>
+                            <div class="filter-details">
+                                <div class="filter-name">Auto Spam Detection</div>
+                                <div class="filter-description">Behavior Analysis</div>
+                            </div>
+                        </div>
+                        <div class="filter-status">Active</div>
+                    </div>
+
+                    <div class="filter-card">
+                        <div class="filter-info">
+                            <div class="filter-icon">🔍</div>
+                            <div class="filter-details">
+                                <div class="filter-name">Text Analysis</div>
+                                <div class="filter-description">Keyword Detected</div>
+                            </div>
+                        </div>
+                        <div class="filter-status">Blocked</div>
+                    </div>
+
+                    <div class="filter-card">
+                        <div class="filter-info">
+                            <div class="filter-icon">👥</div>
+                            <div class="filter-details">
+                                <div class="filter-name">Community Blocking</div>
+                                <div class="filter-description">Advanced Filtering</div>
+                            </div>
+                        </div>
+                        <div class="filter-status">Filtered</div>
+                    </div>
+
+                    <div class="filter-card">
+                        <div class="new-badge">NEW</div>
+                        <div class="filter-info">
+                            <div class="filter-icon">👁️</div>
+                            <div class="filter-details">
+                                <div class="filter-name">Image OCR</div>
+                                <div class="filter-description">Text in Images</div>
+                            </div>
+                        </div>
+                        <div class="filter-status">Detected</div>
+                    </div>
+
+                    <div class="filter-card">
+                        <div class="filter-info">
+                            <div class="filter-icon">🎯</div>
+                            <div class="filter-details">
+                                <div class="filter-name">Quick Block Selection</div>
+                                <div class="filter-description">One-Click Filtering</div>
+                            </div>
+                        </div>
+                        <div class="filter-status">Ready</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
